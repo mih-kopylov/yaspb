@@ -23,7 +23,10 @@ public class ProfileController {
 
     @GetMapping
     public ProfileResponse getProfile( @RequestBody @Valid TokenRequest token ) {
-        log.debug( "get user profile" );
-        return userService.getProfile( token.toToken() );
+        log.debug( "get own profile" );
+        ProfileResponse profileResponse = userService.getProfile( token.toToken() );
+        userService.updateUser( profileResponse.getEmail(), profileResponse.getFirstName(),
+                profileResponse.getLastName() );
+        return profileResponse;
     }
 }
