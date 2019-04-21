@@ -7,6 +7,7 @@ import lombok.NonNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -32,18 +33,23 @@ public class UserService {
         return restTemplate.exchange( requestEntity, ProfileResponse.class ).getBody();
     }
 
-    public void updateUser( @NonNull String login, String firstName, String lastName ) {
+    public void updateUser( @NonNull String login, @Nullable String firstName, @Nullable String lastName,
+            @NonNull String accessToken ) {
         Optional<User> user = userDao.findByLogin( login );
         String userName = getUserName( firstName, lastName );
         if (user.isEmpty()) {
             userDao.create( login, userName );
         } else {
             User savedUser = user.get();
-            if (!userName.equals( savedUser.getName() )) {
-                savedUser.setName( userName );
-                userDao.save( savedUser );
-            }
+            savedUser.setName( userName );
+            savedUser.setToken( accessToken );
+            userDao.save( savedUser );
         }
+    }
+
+    @NonNull
+    public Optional<User> findUserByToken( @NonNull String token ) {
+        return userDao.findByToken( token );
     }
 
     @NonNull

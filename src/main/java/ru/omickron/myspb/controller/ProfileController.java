@@ -26,7 +26,7 @@ public class ProfileController {
         log.debug( "get own profile" );
         ProfileResponse profileResponse = userService.getProfile( token.toToken() );
         userService.updateUser( profileResponse.getEmail(), profileResponse.getFirstName(),
-                profileResponse.getLastName() );
+                profileResponse.getLastName(), token.getAccessToken() );
         return profileResponse;
     }
 }

@@ -8,6 +8,7 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "users")
@@ -21,4 +22,6 @@ public class User {
     private String login;
     @NonNull
     private String name;
+    @Nullable
+    private String token;
 }
