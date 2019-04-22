@@ -1,5 +1,6 @@
 package ru.omickron.myspb.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,4 +31,7 @@ public class ReasonGroup {
     private ReasonGroup parent;
     @NonNull
     private String name;
+    @Nullable
+    @Column(name = "reason_id")
+    private Long reasonId;
 }

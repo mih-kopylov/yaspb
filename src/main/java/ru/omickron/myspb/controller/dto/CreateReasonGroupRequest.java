@@ -10,4 +10,5 @@ public class CreateReasonGroupRequest {
     @NotBlank
     private String name;
     private Long parentId;
+    private Long reasonId;
 }

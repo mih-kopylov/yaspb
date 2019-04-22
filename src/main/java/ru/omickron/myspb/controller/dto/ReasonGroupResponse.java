@@ -17,10 +17,13 @@ public class ReasonGroupResponse {
     private String name;
     @Nullable
     private ReasonGroupResponse parent;
+    @Nullable
+    private Long reasonId;
 
     public ReasonGroupResponse( @NonNull ReasonGroup reasonGroup ) {
         id = reasonGroup.getId();
         name = reasonGroup.getName();
         parent = isNull( reasonGroup.getParent() ) ? null : new ReasonGroupResponse( reasonGroup.getParent() );
+        reasonId = reasonGroup.getReasonId();
     }
 }
