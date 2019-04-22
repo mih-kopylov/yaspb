@@ -29,7 +29,7 @@ import ru.omickron.myspb.service.UserService;
 import static java.util.stream.Collectors.toList;
 
 @RestController
-@RequestMapping(Const.REST + "/reasonGroup")
+@RequestMapping(Const.REST + "/reasonGroups")
 @AllArgsConstructor
 @Slf4j
 public class ReasonGroupController {
