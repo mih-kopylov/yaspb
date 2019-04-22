@@ -12,7 +12,7 @@ import ru.omickron.myspb.service.dto.Token;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenRequest {
+public class TokenHeader {
     @NotBlank
     private String accessToken;
     @NotBlank
