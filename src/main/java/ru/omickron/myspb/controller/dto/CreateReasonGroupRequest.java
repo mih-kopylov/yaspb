@@ -11,4 +11,5 @@ public class CreateReasonGroupRequest {
     private String name;
     private Long parentId;
     private Long reasonId;
+    private String body;
 }

@@ -34,4 +34,6 @@ public class ReasonGroup {
     @Nullable
     @Column(name = "reason_id")
     private Long reasonId;
+    @Nullable
+    private String body;
 }

@@ -1,10 +1,8 @@
 package ru.omickron.myspb.service;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.lang.Nullable;
@@ -16,7 +14,6 @@ import ru.omickron.myspb.model.ReasonGroup;
 import ru.omickron.myspb.model.User;
 import ru.omickron.myspb.service.dto.CategoryResponse;
 import ru.omickron.myspb.service.dto.CityObjectResponse;
-import ru.omickron.myspb.service.dto.ReasonResponse;
 import ru.omickron.myspb.service.dto.Token;
 
 import static java.util.Objects.isNull;
@@ -37,11 +34,11 @@ public class ReasonGroupService {
 
     @NonNull
     public ReasonGroup createGroup( @NonNull Token token, @NonNull User user, @NonNull String name,
-            @Nullable Long parentId, @Nullable Long reasonId ) {
+            @Nullable Long parentId, @Nullable Long reasonId, @Nullable String body ) {
         validateReasonId( token, reasonId );
         ReasonGroup parent = isNull( parentId ) ? null
                 : reasonGroupDao.findById( parentId ).orElseThrow( ReasonGroupNotFoundException :: new );
-        return reasonGroupDao.create( user, name, parent, reasonId );
+        return reasonGroupDao.create( user, name, parent, reasonId, body );
     }
 
     @NonNull
@@ -51,13 +48,14 @@ public class ReasonGroupService {
 
     @NonNull
     public ReasonGroup updateReasonGroup( @NonNull Token token, @NonNull ReasonGroup reasonGroup, @NonNull String name,
-            @Nullable Long parentId, Long reasonId ) {
+            @Nullable Long parentId, @Nullable Long reasonId, @Nullable String body ) {
         validateReasonId( token, reasonId );
         ReasonGroup parent = isNull( parentId ) ? null
                 : reasonGroupDao.findById( parentId ).orElseThrow( ReasonGroupNotFoundException :: new );
         reasonGroup.setName( name );
         reasonGroup.setParent( parent );
         reasonGroup.setReasonId( reasonId );
+        reasonGroup.setBody( body );
         return reasonGroupDao.save( reasonGroup );
     }
 
@@ -67,15 +65,6 @@ public class ReasonGroupService {
 
     private void validateReasonId( @NonNull Token token, @Nullable Long reasonId ) {
         if (nonNull( reasonId )) {
-            List<ReasonResponse> reasons = reasonService.getReasons( token )
-                    .stream()
-                    .map( CityObjectResponse :: getCategories )
-                    .flatMap( Collection :: stream )
-                    .map( CategoryResponse :: getReasons )
-                    .flatMap( Collection :: stream )
-                    .sorted( Comparator.comparing( ReasonResponse :: getId ) )
-                    .collect( Collectors.toList() );
-
             reasonService.getReasons( token )
                     .stream()
                     .map( CityObjectResponse :: getCategories )

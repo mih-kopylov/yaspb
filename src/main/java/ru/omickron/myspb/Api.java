@@ -8,4 +8,6 @@ public class Api {
     public static final String TOKEN = BASE + "/token/";
     public static final String PROFILE = BASE + "/accounts/profile";
     public static final String CLASSIFIER = BASE + "/classifier";
+    public static final String MY_PROBLEMS = BASE + "/problems/my/";
+    public static final String PROBLEMS = BASE + "/problems/";
 }

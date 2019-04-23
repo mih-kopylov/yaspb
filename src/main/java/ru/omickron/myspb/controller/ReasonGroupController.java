@@ -57,7 +57,9 @@ public class ReasonGroupController {
         log.debug( "create reason group" );
         User user =
                 userService.findUserByToken( tokenHeader.getAccessToken() ).orElseThrow( UserNotFoundException :: new );
-        ReasonGroup reasonGroup = reasonGroupService.createGroup(tokenHeader.toToken(), user, request.getName(), request.getParentId(), request.getReasonId() );
+        ReasonGroup reasonGroup =
+                reasonGroupService.createGroup( tokenHeader.toToken(), user, request.getName(), request.getParentId(),
+                        request.getReasonId(), request.getBody() );
         return new ReasonGroupResponse( reasonGroup );
     }
 
@@ -70,7 +72,8 @@ public class ReasonGroupController {
         ReasonGroup reasonGroup =
                 reasonGroupService.findByUserAndId( user, id ).orElseThrow( ReasonGroupNotFoundException :: new );
         return new ReasonGroupResponse(
-                reasonGroupService.updateReasonGroup(tokenHeader.toToken(), reasonGroup, request.getName(), request.getParentId(), request.getReasonId() ) );
+                reasonGroupService.updateReasonGroup( tokenHeader.toToken(), reasonGroup, request.getName(),
+                        request.getParentId(), request.getReasonId(), request.getBody() ) );
     }
 
     @DeleteMapping("/{id}")
