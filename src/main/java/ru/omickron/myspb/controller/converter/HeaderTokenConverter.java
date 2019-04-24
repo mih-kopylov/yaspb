@@ -8,12 +8,14 @@ import static org.apache.logging.log4j.util.Strings.isBlank;
 
 @Component
 public class HeaderTokenConverter implements Converter<String, TokenHeader> {
+    private static final String SEPARATOR = ":";
+
     @Override
     public TokenHeader convert( String value ) {
         if (isBlank( value )) {
             return null;
         }
-        String[] parts = value.split( ":" );
+        String[] parts = value.split( SEPARATOR );
         if (parts.length != 2) {
             throw new IllegalArgumentException( "Can't parse tokens from header" );
         }

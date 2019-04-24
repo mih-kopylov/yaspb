@@ -1,7 +1,6 @@
 package ru.omickron.myspb.controller;
 
 import java.util.List;
-import java.util.Optional;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -41,14 +40,9 @@ public class ReasonGroupController {
     @GetMapping
     public List<ReasonGroupResponse> getGroups( @RequestHeader("token") @Valid TokenHeader tokenHeader ) {
         log.debug( "get reason groups" );
-        Optional<User> user = userService.findUserByToken( tokenHeader.getAccessToken() );
-        if (user.isEmpty()) {
-            throw new UserNotFoundException( "Can't find user by access token" );
-        }
-        return reasonGroupService.findByUser( user.get() )
-                .stream()
-                .map( ReasonGroupResponse :: new )
-                .collect( toList() );
+        User user =
+                userService.findUserByToken( tokenHeader.getAccessToken() ).orElseThrow( UserNotFoundException :: new );
+        return reasonGroupService.findByUser( user ).stream().map( ReasonGroupResponse :: new ).collect( toList() );
     }
 
     @PostMapping
