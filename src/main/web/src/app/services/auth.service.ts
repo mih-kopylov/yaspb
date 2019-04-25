@@ -23,7 +23,7 @@ export class AuthService {
         );
     }
 
-    static saveToken(token: Token) {
+    private static saveToken(token: Token) {
         localStorage.setItem("token", JSON.stringify(token));
     }
 
@@ -32,6 +32,9 @@ export class AuthService {
         if (storedToken) {
             return JSON.parse(storedToken);
         }
-        return new Token();
+    }
+
+    static deleteToken() {
+        localStorage.removeItem("token");
     }
 }
