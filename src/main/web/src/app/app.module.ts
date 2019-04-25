@@ -8,6 +8,9 @@ import {LoginComponent} from './login/login.component';
 import {ReasonGroupsComponent} from './reason-groups/reason-groups.component';
 import {httpInterceptorProviders} from "./http-interceptors";
 import {FormsModule} from "@angular/forms";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatButtonModule, MatFormFieldModule, MatInputModule, MatTreeModule} from "@angular/material";
+import {FlexModule} from "@angular/flex-layout";
 
 @NgModule({
     declarations: [
@@ -20,6 +23,11 @@ import {FormsModule} from "@angular/forms";
         AppRoutingModule,
         HttpClientModule,
         FormsModule,
+        BrowserAnimationsModule,
+        FlexModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
     ],
     providers: [httpInterceptorProviders],
     bootstrap: [AppComponent]
