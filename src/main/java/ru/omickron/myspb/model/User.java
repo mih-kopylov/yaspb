@@ -20,8 +20,6 @@ public class User {
     private Long id;
     @NonNull
     private String login;
-    @NonNull
-    private String name;
     @Nullable
     private String token;
 }

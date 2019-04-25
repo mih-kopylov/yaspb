@@ -12,10 +12,9 @@ public interface UserDao extends JpaRepository<User, Long> {
     @NonNull
     Optional<User> findByToken( @NonNull String token );
 
-    default User create( @NonNull String login, @NonNull String userName ) {
+    default User create( @NonNull String login ) {
         User result = new User();
         result.setLogin( login );
-        result.setName( userName );
         return save( result );
     }
 }

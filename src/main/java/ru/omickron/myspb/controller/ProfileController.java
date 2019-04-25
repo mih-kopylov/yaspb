@@ -24,9 +24,6 @@ public class ProfileController {
     @GetMapping
     public ProfileResponse getProfile( @RequestHeader("token") @Valid TokenHeader tokenHeader ) {
         log.debug( "get own profile" );
-        ProfileResponse profileResponse = userService.getProfile( tokenHeader.toToken() );
-        userService.updateUser( profileResponse.getEmail(), profileResponse.getFirstName(),
-                profileResponse.getLastName(), tokenHeader.getAccessToken() );
-        return profileResponse;
+        return userService.getProfile( tokenHeader.toToken() );
     }
 }
