@@ -11,12 +11,9 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(private router: Router) {
     }
 
-    private static handleAuthError(err: HttpErrorResponse): Observable<any> {
-        if ((err.status === 401) && (location.pathname !== "/login")) {
-            location.href = "/login";
-            // this.router.navigateByUrl("/login");
-            // if you've caught / handled the error, you don't want to rethrow it unless you also want downstream
-            // consumers to have to handle it as well.
+    private handleAuthError(err: HttpErrorResponse): Observable<any> {
+        if ((err.status === 401) && (!this.router.isActive("/login", true))) {
+            this.router.navigate(["/login"]);
             return of(err.message);
         }
         return throwError(err);
@@ -28,6 +25,6 @@ export class AuthInterceptor implements HttpInterceptor {
             setHeaders: {"token": token.accessToken + ":" + token.refreshToken},
             withCredentials: true
         });
-        return next.handle(authReq).pipe(catchError(AuthInterceptor.handleAuthError))
+        return next.handle(authReq).pipe(catchError(err => this.handleAuthError(err)))
     }
 }

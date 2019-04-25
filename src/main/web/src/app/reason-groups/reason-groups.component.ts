@@ -17,7 +17,7 @@ export class ReasonGroupsComponent implements OnInit {
     }
 
     ngOnInit() {
-        // this.getReasonGroups();
+        this.getReasonGroups();
     }
 
     getReasonGroups() {

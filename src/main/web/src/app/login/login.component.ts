@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-login',
@@ -11,6 +12,7 @@ export class LoginComponent implements OnInit {
 
     constructor(
         private authService: AuthService,
+        private router: Router
     ) {
     }
 
@@ -19,7 +21,9 @@ export class LoginComponent implements OnInit {
     }
 
     doLogin() {
-        this.authService.login(this.model.login, this.model.password).subscribe(() => location.pathname = "/");
+        this.authService.login(this.model.login, this.model.password).subscribe(() => {
+            this.router.navigate(["/"])
+        });
     }
 }
 
