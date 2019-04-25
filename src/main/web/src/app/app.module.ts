@@ -7,7 +7,7 @@ import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
 import {ReasonGroupsComponent} from './reason-groups/reason-groups.component';
 import {httpInterceptorProviders} from "./http-interceptors";
-import {Router, RouterModule} from "@angular/router";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
     declarations: [
@@ -19,6 +19,7 @@ import {Router, RouterModule} from "@angular/router";
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
+        FormsModule,
     ],
     providers: [httpInterceptorProviders],
     bootstrap: [AppComponent]

@@ -3,10 +3,13 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {Router} from "@angular/router";
 import {Observable, of, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
+import {Token} from "../model/token";
+import {AuthService} from "../services/auth.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-    constructor(private router: Router) {}
+    constructor(private router: Router) {
+    }
 
     private static handleAuthError(err: HttpErrorResponse): Observable<any> {
         if ((err.status === 401) && (location.pathname !== "/login")) {
@@ -20,8 +23,9 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        let token: Token = AuthService.loadToken();
         const authReq = request.clone({
-            setHeaders: {"token": "a:a"},
+            setHeaders: {"token": token.accessToken + ":" + token.refreshToken},
             withCredentials: true
         });
         return next.handle(authReq).pipe(catchError(AuthInterceptor.handleAuthError))

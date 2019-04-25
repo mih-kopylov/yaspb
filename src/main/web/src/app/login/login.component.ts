@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../services/auth.service";
-import {ProfileService} from "../services/profile.service";
 
 @Component({
     selector: 'app-login',
@@ -8,10 +7,10 @@ import {ProfileService} from "../services/profile.service";
     styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+    model = new LoginForm();
 
     constructor(
         private authService: AuthService,
-        private profileService: ProfileService,
     ) {
     }
 
@@ -19,4 +18,13 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
     }
 
+    doLogin() {
+        this.authService.login(this.model.login, this.model.password).subscribe(() => location.pathname = "/");
+    }
+}
+
+
+class LoginForm {
+    login: string;
+    password: string;
 }
