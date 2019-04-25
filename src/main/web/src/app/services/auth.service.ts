@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {Api} from "./api";
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,7 @@ export class AuthService {
 
     login(login: string, password: string): Observable<any> {
         const body = {login, password};
-        return this.httpClient.post("http://localhost:8080/rest/auth/login", body).pipe(response => {
+        return this.httpClient.post(Api.LOGIN, body).pipe(response => {
             console.log(response);
             return response;
         });
