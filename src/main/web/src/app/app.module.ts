@@ -9,7 +9,7 @@ import {ReasonGroupsComponent} from './reason-groups/reason-groups.component';
 import {httpInterceptorProviders} from "./http-interceptors";
 import {FormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatFormFieldModule, MatInputModule, MatTreeModule} from "@angular/material";
+import {MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule} from "@angular/material";
 import {FlexModule} from "@angular/flex-layout";
 
 @NgModule({
@@ -28,6 +28,7 @@ import {FlexModule} from "@angular/flex-layout";
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
+        MatCardModule,
     ],
     providers: [httpInterceptorProviders],
     bootstrap: [AppComponent]

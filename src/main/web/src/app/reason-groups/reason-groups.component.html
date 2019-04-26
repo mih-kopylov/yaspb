@@ -1,8 +1,19 @@
-<p>
-    reason-groups works!
-</p>
-<ul>
-    <li *ngFor="let group of groups">
-        <span>{{group.id}}</span>. <span>{{group.name}}</span>
-    </li>
-</ul>
+<div fxLayout="column">
+    <div *ngIf="selectedGroupId">
+        <mat-card fxLayoutAlign="center">
+            <mat-card-title>{{getGroupById(selectedGroupId)?.name}}</mat-card-title>
+        </mat-card>
+    </div>
+    <div fxLayout="row wrap">
+        <mat-card *ngFor="let group of getReasonGroupsByParent(selectedGroupId)" (click)="select(group)"
+                  fxLayoutAlign="center"
+                  fxFlex.gt-lg="20"
+                  fxFlex.gt-md="33"
+                  fxFlex.gt-sm="40"
+                  fxFlex.gt-xs="50"
+                  fxFlex.xs="100"
+        >
+            <mat-card-title>{{group.name}}</mat-card-title>
+        </mat-card>
+    </div>
+</div>
