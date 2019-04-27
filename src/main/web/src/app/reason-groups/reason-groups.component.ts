@@ -38,7 +38,11 @@ export class ReasonGroupsComponent implements OnInit {
     }
 
     select(reasonGroup: ReasonGroup) {
-        this.router.navigate(["/"], {queryParams: {"parentId": reasonGroup.id}});
+        if (isDefined(reasonGroup.reasonId)) {
+            this.router.navigate(["/createProblem"], {queryParams: {"reasonGroupId": reasonGroup.id}})
+        } else {
+            this.router.navigate(["/"], {queryParams: {"parentId": reasonGroup.id}});
+        }
     }
 
     getGroupById(groupId): ReasonGroup {

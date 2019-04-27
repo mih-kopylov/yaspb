@@ -1,0 +1,16 @@
+<div fxLayout="row" fxLayoutAlign="center">
+    <div fxFlex.gt-lg="20"
+         fxFlex.gt-md="30"
+         fxFlex.gt-sm="40"
+         fxFlex.gt-xs="50"
+         fxFlex.xs="100"
+    >
+        <form #createProblemForm="ngForm" fxLayout="column">
+            <button mat-raised-button color="primary" (click)="fileInput.click()">Фото</button>
+            <input hidden type="file" multiple #fileInput (change)="onFileSelect($event)" name="files">
+
+            <button type="submit" mat-raised-button color="primary" (click)="doSend()">Отправить</button>
+        </form>
+    </div>
+</div>
+

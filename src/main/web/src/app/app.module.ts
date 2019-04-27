@@ -11,12 +11,14 @@ import {FormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule} from "@angular/material";
 import {FlexModule} from "@angular/flex-layout";
+import { CreateProblemComponent } from './create-problem/create-problem.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
-        ReasonGroupsComponent
+        ReasonGroupsComponent,
+        CreateProblemComponent
     ],
     imports: [
         BrowserModule,
