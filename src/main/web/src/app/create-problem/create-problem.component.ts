@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProblemService} from "../services/problem.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CreateProblemRequest} from "../model/create-problem-request";
+import {GeoService} from "../services/geo.service";
 
 @Component({
     selector: 'app-create-problem',
@@ -16,6 +17,7 @@ export class CreateProblemComponent implements OnInit {
         private problemService: ProblemService,
         private router: Router,
         private route: ActivatedRoute,
+        private geoService: GeoService,
     ) {
     }
 
@@ -23,10 +25,6 @@ export class CreateProblemComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.model.reasonGroupId = Number(params.reasonGroupId);
         });
-        navigator.geolocation.getCurrentPosition(position => {
-            this.model.latitude = position.coords.latitude;
-            this.model.longitude = position.coords.longitude;
-        })
     }
 
     onFileSelect(event) {
@@ -36,13 +34,12 @@ export class CreateProblemComponent implements OnInit {
                 let file = files[i];
                 this.model.files.push(file);
             }
-            // files.forEach(file => this.model.files.push[file]);
-            // const file = event.target.files[0];
-            // this.uploadForm.get('profile').setValue(file);
         }
     }
 
     doSend() {
+        this.model.latitude = this.geoService.getCoords().latitude;
+        this.model.longitude = this.geoService.getCoords().longitude;
         this.problemService.createProblem(this.model).subscribe(problem => console.log(problem));
     }
 

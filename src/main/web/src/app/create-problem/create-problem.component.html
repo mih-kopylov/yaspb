@@ -5,8 +5,8 @@
          fxFlex.gt-xs="50"
          fxFlex.xs="100"
     >
-        <form #createProblemForm="ngForm" fxLayout="column">
-            <button mat-raised-button color="primary" (click)="fileInput.click()">Фото</button>
+        <form #createProblemForm="ngForm" fxLayout="column" fxLayoutGap="10px">
+            <button mat-raised-button color="primary" (click)="fileInput.click()">Выбрать фото</button>
             <input hidden type="file" multiple #fileInput (change)="onFileSelect($event)" name="files">
 
             <button type="submit" mat-raised-button color="primary" (click)="doSend()">Отправить</button>
