@@ -19,6 +19,6 @@ public class ReasonService {
     public List<CityObjectResponse> getReasons( @NonNull Token token ) {
         ParameterizedTypeReference<List<CityObjectResponse>> responseType = new ParameterizedTypeReference<>() {
         };
-        return httpService.get( token, Api.CLASSIFIER, responseType );
+        return httpService.get( httpService.createAuthHeaders( token ), Api.CLASSIFIER, responseType );
     }
 }

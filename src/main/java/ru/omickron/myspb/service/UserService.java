@@ -22,7 +22,7 @@ public class UserService {
 
     @NonNull
     public ProfileResponse getProfile( @NonNull Token token ) {
-        return httpService.get( token, Api.PROFILE, ProfileResponse.class );
+        return httpService.get( httpService.createAuthHeaders( token ), Api.PROFILE, ProfileResponse.class );
     }
 
     public void updateUser( @NonNull String login, @NonNull String accessToken ) {

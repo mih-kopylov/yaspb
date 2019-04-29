@@ -34,12 +34,13 @@ public class ProblemsService {
 
     @NonNull
     public List<ShortProblemResponse> getProblems( @NonNull Token token ) {
-        return httpService.get( token, Api.MY_PROBLEMS, ProblemsPageResponse.class ).getResults();
+        return httpService.get( httpService.createAuthHeaders( token ), Api.MY_PROBLEMS, ProblemsPageResponse.class )
+                .getResults();
     }
 
     @NonNull
     public ProblemResponse getProblem( @NonNull Token token, @NonNull Long id ) {
-        return httpService.get( token, Api.PROBLEMS + id, ProblemResponse.class );
+        return httpService.get( httpService.createAuthHeaders( token ), Api.PROBLEMS + id, ProblemResponse.class );
     }
 
     @NonNull
@@ -63,7 +64,8 @@ public class ProblemsService {
         for (MultipartFile file : files) {
             body.add( "files", file.getResource() );
         }
-        CreatedProblemResponse response = httpService.post( token, Api.PROBLEMS, body, CreatedProblemResponse.class );
+        CreatedProblemResponse response = httpService.post( httpService.createAuthHeaders( token ), Api.PROBLEMS, body,
+                CreatedProblemResponse.class );
         return getProblem( token, response.getId() );
     }
 }

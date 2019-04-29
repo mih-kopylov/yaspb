@@ -21,23 +21,22 @@ import ru.omickron.myspb.service.dto.Token;
 @Slf4j
 public class HttpService {
     @NonNull
-    public <T> T get( @NonNull Token token, @NonNull String url, @NonNull Class<T> responseClass ) {
-        return get( token, url, ParameterizedTypeReference.forType( responseClass ) );
+    public <T> T get( @NonNull HttpHeaders headers, @NonNull String url, @NonNull Class<T> responseClass ) {
+        return get( headers, url, ParameterizedTypeReference.forType( responseClass ) );
     }
 
     @NonNull
-    public <T> T get( @NonNull Token token, @NonNull String url, @NonNull ParameterizedTypeReference<T> responseType ) {
+    public <T> T get( @NonNull HttpHeaders headers, @NonNull String url,
+            @NonNull ParameterizedTypeReference<T> responseType ) {
         RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = createHttpHeaders( token );
         RequestEntity<String> requestEntity = new RequestEntity<>( headers, HttpMethod.GET, URI.create( url ) );
         return wrapLoggingClientException( () -> restTemplate.exchange( requestEntity, responseType ).getBody() );
     }
 
     @NonNull
-    public <T> T post( @NonNull Token token, @NonNull String url,
+    public <T> T post( @NonNull HttpHeaders headers, @NonNull String url,
             @NonNull MultiValueMap<String, Object> multipartFormBody, @NonNull Class<T> responseClass ) {
         RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = createHttpHeaders( token );
         headers.setContentType( MediaType.MULTIPART_FORM_DATA );
         HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>( multipartFormBody, headers );
         return wrapLoggingClientException(
@@ -45,20 +44,20 @@ public class HttpService {
     }
 
     @NonNull
+    public HttpHeaders createAuthHeaders( @NonNull Token token ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth( token.getAccessToken() );
+        return headers;
+    }
+
+    @NonNull
     private <T> T wrapLoggingClientException( @NonNull Supplier<T> supplier ) {
         try {
             return supplier.get();
         } catch (HttpStatusCodeException e) {
-            log.error( "Client error happened: {}",
-                    new String( e.getResponseBodyAsByteArray(), StandardCharsets.UTF_8 ) );
+            log.error( "Client error happened: status={}, body={}",
+                    e.getStatusCode(), new String( e.getResponseBodyAsByteArray(), StandardCharsets.UTF_8 ) );
             throw e;
         }
-    }
-
-    @NonNull
-    private HttpHeaders createHttpHeaders( @NonNull Token token ) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth( token.getAccessToken() );
-        return headers;
     }
 }
