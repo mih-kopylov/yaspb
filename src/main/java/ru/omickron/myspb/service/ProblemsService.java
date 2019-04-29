@@ -1,18 +1,11 @@
 package ru.omickron.myspb.service;
 
-import java.net.URI;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import ru.omickron.myspb.Api;
 import ru.omickron.myspb.exception.NoBodyInReasonGroupException;
@@ -36,25 +29,17 @@ public class ProblemsService {
     private final UserService userService;
     @NonNull
     private final ReasonGroupService reasonGroupService;
+    @NonNull
+    private final HttpService httpService;
 
     @NonNull
     public List<ShortProblemResponse> getProblems( @NonNull Token token ) {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth( token.getAccessToken() );
-        RequestEntity<String> requestEntity =
-                new RequestEntity<>( headers, HttpMethod.GET, URI.create( Api.MY_PROBLEMS ) );
-        return restTemplate.exchange( requestEntity, ProblemsPageResponse.class ).getBody().getResults();
+        return httpService.get( token, Api.MY_PROBLEMS, ProblemsPageResponse.class ).getResults();
     }
 
     @NonNull
     public ProblemResponse getProblem( @NonNull Token token, @NonNull Long id ) {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth( token.getAccessToken() );
-        RequestEntity<String> requestEntity =
-                new RequestEntity<>( headers, HttpMethod.GET, URI.create( Api.PROBLEMS + id ) );
-        return restTemplate.exchange( requestEntity, ProblemResponse.class ).getBody();
+        return httpService.get( token, Api.PROBLEMS + id, ProblemResponse.class );
     }
 
     @NonNull
@@ -70,23 +55,15 @@ public class ProblemsService {
             throw new NoReasonInReasonGroupException();
         }
 
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth( token.getAccessToken() );
-        headers.setContentType( MediaType.MULTIPART_FORM_DATA );
-        MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-        map.add( "body", reasonGroup.getBody() );
-        map.add( "latitude", latitude );
-        map.add( "longitude", longitude );
-        map.add( "reason", reasonGroup.getReasonId() );
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add( "body", reasonGroup.getBody() );
+        body.add( "latitude", latitude );
+        body.add( "longitude", longitude );
+        body.add( "reason", reasonGroup.getReasonId() );
         for (MultipartFile file : files) {
-            map.add( "files", file.getResource() );
+            body.add( "files", file.getResource() );
         }
-
-        HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>( map, headers );
-        CreatedProblemResponse createdProblemResponse =
-                restTemplate.postForEntity( URI.create( Api.PROBLEMS ), httpEntity, CreatedProblemResponse.class )
-                        .getBody();
-        return getProblem( token, createdProblemResponse.getId() );
+        CreatedProblemResponse response = httpService.post( token, Api.PROBLEMS, body, CreatedProblemResponse.class );
+        return getProblem( token, response.getId() );
     }
 }
