@@ -1,15 +1,23 @@
 package ru.omickron.myspb.config;
 
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 import ru.omickron.myspb.Const;
+import ru.omickron.myspb.interceptor.AuthBeforeHandleInterceptor;
 
 @Configuration
+@AllArgsConstructor
 public class WebConfiguration {
+    @NonNull
+    private final AuthBeforeHandleInterceptor authBeforeHandleInterceptor;
+
     @Bean
     public WebMvcConfigurer spaConfigurer() {
         return new WebMvcConfigurer() {
@@ -32,6 +40,16 @@ public class WebConfiguration {
                                 return location.exists() && location.isReadable() ? location : null;
                             }
                         } );
+            }
+        };
+    }
+
+    @Bean
+    public WebMvcConfigurer interceptorsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addInterceptors( InterceptorRegistry registry ) {
+                registry.addInterceptor( authBeforeHandleInterceptor );
             }
         };
     }

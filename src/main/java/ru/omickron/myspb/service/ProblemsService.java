@@ -12,13 +12,13 @@ import ru.omickron.myspb.exception.NoBodyInReasonGroupException;
 import ru.omickron.myspb.exception.NoReasonInReasonGroupException;
 import ru.omickron.myspb.exception.ReasonGroupNotFoundException;
 import ru.omickron.myspb.exception.UserNotFoundException;
+import ru.omickron.myspb.interceptor.RequestContext;
 import ru.omickron.myspb.model.ReasonGroup;
 import ru.omickron.myspb.model.User;
 import ru.omickron.myspb.service.dto.CreatedProblemResponse;
 import ru.omickron.myspb.service.dto.ProblemResponse;
 import ru.omickron.myspb.service.dto.ProblemsPageResponse;
 import ru.omickron.myspb.service.dto.ShortProblemResponse;
-import ru.omickron.myspb.service.dto.Token;
 
 import static java.util.Objects.isNull;
 
@@ -26,27 +26,26 @@ import static java.util.Objects.isNull;
 @AllArgsConstructor
 public class ProblemsService {
     @NonNull
-    private final UserService userService;
-    @NonNull
     private final ReasonGroupService reasonGroupService;
     @NonNull
     private final HttpService httpService;
+    @NonNull
+    private final RequestContext requestContext;
 
     @NonNull
-    public List<ShortProblemResponse> getProblems( @NonNull Token token ) {
-        return httpService.get( httpService.createAuthHeaders( token ), Api.MY_PROBLEMS, ProblemsPageResponse.class )
-                .getResults();
+    public List<ShortProblemResponse> getProblems() {
+        return httpService.get( Api.MY_PROBLEMS, ProblemsPageResponse.class ).getResults();
     }
 
     @NonNull
-    public ProblemResponse getProblem( @NonNull Token token, @NonNull Long id ) {
-        return httpService.get( httpService.createAuthHeaders( token ), Api.PROBLEMS + id, ProblemResponse.class );
+    public ProblemResponse getProblem( @NonNull Long id ) {
+        return httpService.get( Api.PROBLEMS + id, ProblemResponse.class );
     }
 
     @NonNull
-    public ProblemResponse createProblem( @NonNull Token token, @NonNull Long reasonGroupId, @NonNull Double latitude,
+    public ProblemResponse createProblem( @NonNull Long reasonGroupId, @NonNull Double latitude,
             @NonNull Double longitude, @NonNull MultipartFile[] files ) {
-        User user = userService.findUserByToken( token.getAccessToken() ).orElseThrow( UserNotFoundException :: new );
+        User user = requestContext.getUser().orElseThrow( UserNotFoundException :: new );
         ReasonGroup reasonGroup = reasonGroupService.findByUserAndId( user, reasonGroupId )
                 .orElseThrow( ReasonGroupNotFoundException :: new );
         if (isNull( reasonGroup.getBody() )) {
@@ -64,8 +63,7 @@ public class ProblemsService {
         for (MultipartFile file : files) {
             body.add( "files", file.getResource() );
         }
-        CreatedProblemResponse response = httpService.post( httpService.createAuthHeaders( token ), Api.PROBLEMS, body,
-                CreatedProblemResponse.class );
-        return getProblem( token, response.getId() );
+        CreatedProblemResponse response = httpService.post( Api.PROBLEMS, body, CreatedProblemResponse.class );
+        return getProblem( response.getId() );
     }
 }

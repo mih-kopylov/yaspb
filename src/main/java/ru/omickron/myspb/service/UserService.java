@@ -9,7 +9,6 @@ import ru.omickron.myspb.Api;
 import ru.omickron.myspb.dao.UserDao;
 import ru.omickron.myspb.model.User;
 import ru.omickron.myspb.service.dto.ProfileResponse;
-import ru.omickron.myspb.service.dto.Token;
 
 @Service
 @AllArgsConstructor
@@ -21,8 +20,8 @@ public class UserService {
     private final HttpService httpService;
 
     @NonNull
-    public ProfileResponse getProfile( @NonNull Token token ) {
-        return httpService.get( httpService.createAuthHeaders( token ), Api.PROFILE, ProfileResponse.class );
+    public ProfileResponse getProfile() {
+        return httpService.get( Api.PROFILE, ProfileResponse.class );
     }
 
     public void updateUser( @NonNull String login, @NonNull String accessToken ) {

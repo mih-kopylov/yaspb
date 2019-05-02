@@ -7,7 +7,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import ru.omickron.myspb.Api;
 import ru.omickron.myspb.service.dto.CityObjectResponse;
-import ru.omickron.myspb.service.dto.Token;
 
 @Service
 @AllArgsConstructor
@@ -16,9 +15,9 @@ public class ReasonService {
     private final HttpService httpService;
 
     @NonNull
-    public List<CityObjectResponse> getReasons( @NonNull Token token ) {
+    public List<CityObjectResponse> getReasons() {
         ParameterizedTypeReference<List<CityObjectResponse>> responseType = new ParameterizedTypeReference<>() {
         };
-        return httpService.get( httpService.createAuthHeaders( token ), Api.CLASSIFIER, responseType );
+        return httpService.get( Api.CLASSIFIER, responseType );
     }
 }

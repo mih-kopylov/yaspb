@@ -20,4 +20,9 @@ public class Token {
     public static Token fromResponse( @NonNull TokenResponse tokenResponse ) {
         return new Token( tokenResponse.getAccessToken(), tokenResponse.getRefreshToken() );
     }
+
+    @Override
+    public String toString() {
+        return accessToken + ":" + refreshToken;
+    }
 }
