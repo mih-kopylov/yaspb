@@ -16,7 +16,9 @@ import {isDefined} from "@angular/compiler/src/util";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-    constructor(private router: Router) {
+    constructor(
+        private router: Router,
+        private authService: AuthService) {
     }
 
     private static storeTokenFromResponse(event: HttpEvent<any>) {
@@ -42,7 +44,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     private handleAuthError(err: HttpErrorResponse): Observable<any> {
         if ((err.status === 401) && (!this.router.isActive("/login", true))) {
-            AuthService.deleteToken();
+            this.authService.logout();
             this.router.navigate(["/login"]);
             return of(err.message);
         }

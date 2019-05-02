@@ -1,0 +1,6 @@
+<div fxLayout="row" fxLayoutAlign="end center" *ngIf="isLoggedIn()">
+    <span>{{getProfileName()}}</span>
+    <button mat-icon-button (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+    </button>
+</div>

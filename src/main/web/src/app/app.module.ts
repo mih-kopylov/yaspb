@@ -9,16 +9,18 @@ import {ReasonGroupsComponent} from './reason-groups/reason-groups.component';
 import {httpInterceptorProviders} from "./http-interceptors";
 import {FormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule} from "@angular/material";
+import {MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule} from "@angular/material";
 import {FlexModule} from "@angular/flex-layout";
 import { CreateProblemComponent } from './create-problem/create-problem.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
         ReasonGroupsComponent,
-        CreateProblemComponent
+        CreateProblemComponent,
+        ProfileComponent
     ],
     imports: [
         BrowserModule,
@@ -31,6 +33,7 @@ import { CreateProblemComponent } from './create-problem/create-problem.componen
         MatInputModule,
         MatButtonModule,
         MatCardModule,
+        MatIconModule,
     ],
     providers: [httpInterceptorProviders],
     bootstrap: [AppComponent]
