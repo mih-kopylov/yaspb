@@ -1,1 +1,1 @@
-web: java -jar target/myspb.jar $PORT
+web: java -jar target/myspb.jar --server.port=$PORT
