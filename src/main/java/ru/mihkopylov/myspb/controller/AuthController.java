@@ -31,8 +31,9 @@ public class AuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<String> login( @RequestBody @Valid LoginRequest request ) {
-        log.debug( "login user: login={}", request.getLogin() );
-        loginService.login( request.getLogin(), request.getPassword() );
+        String login = request.getLogin().trim();
+        log.debug( "login user: login={}", login );
+        loginService.login( login, request.getPassword() );
         return ResponseEntity.ok().build();
     }
 }
