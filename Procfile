@@ -1,1 +1,1 @@
-web: java -jar target/myspb.jar
+web: java -jar target/myspb.jar $PORT
