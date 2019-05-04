@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import {ProblemService} from "../services/problem.service";
 import {CreateReasonGroupRequest} from "../model/create-reason-group-request";
 import {ReasonGroup} from "../model/reason-group";
@@ -6,9 +6,9 @@ import {isDefined} from "@angular/compiler/src/util";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
-    selector: 'app-create-reason-group',
-    templateUrl: './create-reason-group.component.html',
-    styleUrls: ['./create-reason-group.component.css']
+    selector: "app-create-reason-group",
+    templateUrl: "./create-reason-group.component.html",
+    styleUrls: ["./create-reason-group.component.css"],
 })
 export class CreateReasonGroupComponent implements OnInit {
     private reasonsMap = new Map<string, InnerReason[]>();
@@ -33,7 +33,7 @@ export class CreateReasonGroupComponent implements OnInit {
                 let reasonsInGroup: InnerReason[] = [];
                 for (const category of cityObject.categories) {
                     for (const reason of category.reasons) {
-                        reasonsInGroup.push(new InnerReason(reason.id, groupName, reason.name))
+                        reasonsInGroup.push(new InnerReason(reason.id, groupName, reason.name));
                     }
                 }
                 reasonsInGroup = reasonsInGroup.sort((a, b) => a.name.localeCompare(b.name));
@@ -45,9 +45,9 @@ export class CreateReasonGroupComponent implements OnInit {
     }
 
     create() {
-        this.problemService.createReasonGroup(this.request).subscribe(()=>{
+        this.problemService.createReasonGroup(this.request).subscribe(() => {
             this.router.navigate(["/"], {queryParams: {"parentId": this.request.parentId}});
-        })
+        });
     }
 }
 

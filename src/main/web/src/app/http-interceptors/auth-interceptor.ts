@@ -5,7 +5,7 @@ import {
     HttpHandler,
     HttpInterceptor,
     HttpRequest,
-    HttpResponse
+    HttpResponse,
 } from "@angular/common/http";
 import {Router} from "@angular/router";
 import {Observable, of, throwError} from "rxjs";
@@ -35,11 +35,11 @@ export class AuthInterceptor implements HttpInterceptor {
         let token: Token = AuthService.loadToken();
         const authRequest = isDefined(token) ? request.clone({
             setHeaders: {"token": token.toHeader()},
-            withCredentials: true
+            withCredentials: true,
         }) : request;
         return next.handle(authRequest).pipe(
             map(event => AuthInterceptor.storeTokenFromResponse(event)),
-            catchError(err => this.handleAuthError(err)))
+            catchError(err => this.handleAuthError(err)));
     }
 
     private handleAuthError(err: HttpErrorResponse): Observable<any> {

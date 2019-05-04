@@ -7,7 +7,7 @@ export class Token {
         let result = new Token();
         result.accessToken = parts[0];
         result.refreshToken = parts[1];
-        return result
+        return result;
     }
 
     toHeader(): string {

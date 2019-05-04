@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import {ProblemService} from "../services/problem.service";
 import {ReasonGroup} from "../model/reason-group";
 import {isDefined} from "@angular/compiler/src/util";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
-    selector: 'app-reason-groups',
-    templateUrl: './reason-groups.component.html',
-    styleUrls: ['./reason-groups.component.css']
+    selector: "app-reason-groups",
+    templateUrl: "./reason-groups.component.html",
+    styleUrls: ["./reason-groups.component.css"],
 })
 export class ReasonGroupsComponent implements OnInit {
 
@@ -39,7 +39,7 @@ export class ReasonGroupsComponent implements OnInit {
 
     select(reasonGroup: ReasonGroup) {
         if (isDefined(reasonGroup.reasonId)) {
-            this.router.navigate(["/createProblem"], {queryParams: {"reasonGroupId": reasonGroup.id}})
+            this.router.navigate(["/createProblem"], {queryParams: {"reasonGroupId": reasonGroup.id}});
         } else {
             this.router.navigate(["/"], {queryParams: {"parentId": reasonGroup.id}});
         }

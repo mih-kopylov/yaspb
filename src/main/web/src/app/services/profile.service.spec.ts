@@ -1,11 +1,11 @@
-import {TestBed} from '@angular/core/testing';
+import {TestBed} from "@angular/core/testing";
 
-import {ProfileService} from './profile.service';
+import {ProfileService} from "./profile.service";
 
-describe('ProfileService', () => {
+describe("ProfileService", () => {
     beforeEach(() => TestBed.configureTestingModule({}));
 
-    it('should be created', () => {
+    it("should be created", () => {
         const service: ProfileService = TestBed.get(ProfileService);
         expect(service).toBeTruthy();
     });

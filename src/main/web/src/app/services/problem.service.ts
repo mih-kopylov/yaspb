@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {ReasonGroup} from "../model/reason-group";
 import {HttpClient} from "@angular/common/http";
@@ -9,12 +9,12 @@ import {CityObject} from "../model/reason";
 import {CreateReasonGroupRequest} from "../model/create-reason-group-request";
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: "root",
 })
 export class ProblemService {
 
     constructor(
-        private httpClient: HttpClient
+        private httpClient: HttpClient,
     ) {
     }
 
@@ -36,6 +36,6 @@ export class ProblemService {
         body.append("latitude", model.latitude.toString());
         body.append("longitude", model.longitude.toString());
         model.files.forEach(file => body.append("files", file, file.name));
-        return this.httpClient.post<Problem>(Api.PROBLEM, body)
+        return this.httpClient.post<Problem>(Api.PROBLEM, body);
     }
 }

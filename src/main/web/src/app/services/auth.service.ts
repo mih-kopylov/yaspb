@@ -1,4 +1,4 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Api} from "./api";
@@ -6,13 +6,13 @@ import {Token} from "../model/token";
 import {map} from "rxjs/operators";
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: "root",
 })
 export class AuthService {
     authEvents = new EventEmitter();
 
     constructor(
-        private httpClient: HttpClient
+        private httpClient: HttpClient,
     ) {
     }
 

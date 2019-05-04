@@ -7,7 +7,7 @@
           fxFlex.xs="100"
           fxLayout="column">
         <mat-form-field>
-            <input matInput placeholder="Название" name="name" [(ngModel)]="request.name" required>
+            <input [(ngModel)]="request.name" matInput name="name" placeholder="Название" required>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Группа</mat-label>
@@ -30,10 +30,10 @@
             </mat-select>
         </mat-form-field>
         <mat-form-field>
-            <textarea matInput rows="3" placeholder="Сообщение" name="body" [(ngModel)]="request.body"></textarea>
+            <textarea [(ngModel)]="request.body" matInput name="body" placeholder="Сообщение" rows="3"></textarea>
         </mat-form-field>
-        <button type="submit" mat-raised-button color="primary" (click)="create()"
-                [disabled]="!createReasonGroupForm.reportValidity()">Создать
+        <button (click)="create()" [disabled]="!createReasonGroupForm.reportValidity()" color="primary" mat-raised-button
+                type="submit">Создать
         </button>
     </form>
 </div>

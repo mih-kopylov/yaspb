@@ -5,18 +5,19 @@
         </mat-card>
     </div>
     <div fxLayout="row wrap">
-        <mat-card *ngFor="let group of getReasonGroupsByParent(selectedGroupId)" (click)="select(group)"
-                  fxLayoutAlign="center"
+        <mat-card (click)="select(group)" *ngFor="let group of getReasonGroupsByParent(selectedGroupId)"
                   fxFlex.gt-lg="20"
                   fxFlex.gt-md="33"
                   fxFlex.gt-sm="40"
                   fxFlex.gt-xs="50"
                   fxFlex.xs="100"
+                  fxLayoutAlign="center"
         >
             <mat-card-title>{{group.name}}</mat-card-title>
         </mat-card>
     </div>
 </div>
-<button mat-fab color="primary" class="create-reason-group" routerLink="/createReasonGroup" [queryParams]="{parentId: selectedGroupId}">
+<button [queryParams]="{parentId: selectedGroupId}" class="create-reason-group" color="primary" mat-fab
+        routerLink="/createReasonGroup">
     <mat-icon>add</mat-icon>
 </button>

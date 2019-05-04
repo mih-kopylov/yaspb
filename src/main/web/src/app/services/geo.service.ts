@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core";
 import {isDefined} from "@angular/compiler/src/util";
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: "root",
 })
 export class GeoService {
     private positionError: PositionError;

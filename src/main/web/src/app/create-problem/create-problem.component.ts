@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import {ProblemService} from "../services/problem.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CreateProblemRequest} from "../model/create-problem-request";
 import {GeoService} from "../services/geo.service";
 
 @Component({
-    selector: 'app-create-problem',
-    templateUrl: './create-problem.component.html',
-    styleUrls: ['./create-problem.component.css']
+    selector: "app-create-problem",
+    templateUrl: "./create-problem.component.html",
+    styleUrls: ["./create-problem.component.css"],
 })
 export class CreateProblemComponent implements OnInit {
 

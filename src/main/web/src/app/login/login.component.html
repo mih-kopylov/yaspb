@@ -2,12 +2,12 @@
     <div fxFlex.gt-lg="20" fxFlex.gt-md="30" fxFlex.gt-sm="40" fxFlex.gt-xs="50" fxFlex.xs="100">
         <form #loginForm="ngForm" fxLayout="column">
             <mat-form-field>
-                <input matInput type="text" placeholder="Логин" [(ngModel)]="model.login" name="login">
+                <input [(ngModel)]="model.login" matInput name="login" placeholder="Логин" type="text">
             </mat-form-field>
             <mat-form-field>
-                <input matInput type="password" placeholder="Пароль" [(ngModel)]="model.password" name="password">
+                <input [(ngModel)]="model.password" matInput name="password" placeholder="Пароль" type="password">
             </mat-form-field>
-            <button type="submit" mat-raised-button color="primary" (click)="doLogin()">Войти</button>
+            <button (click)="doLogin()" color="primary" mat-raised-button type="submit">Войти</button>
         </form>
     </div>
 </div>

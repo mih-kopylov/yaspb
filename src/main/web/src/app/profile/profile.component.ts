@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import {ProfileService} from "../services/profile.service";
 import {Profile} from "../model/profile";
 import {isDefined} from "@angular/compiler/src/util";
@@ -6,9 +6,9 @@ import {AuthService} from "../services/auth.service";
 import {Router} from "@angular/router";
 
 @Component({
-    selector: 'app-profile',
-    templateUrl: './profile.component.html',
-    styleUrls: ['./profile.component.css']
+    selector: "app-profile",
+    templateUrl: "./profile.component.html",
+    styleUrls: ["./profile.component.css"],
 })
 export class ProfileComponent implements OnInit {
     private profile: Profile;
@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
 
     ngOnInit() {
         this.updateProfile();
-        this.authService.authEvents.subscribe(() => this.updateProfile())
+        this.authService.authEvents.subscribe(() => this.updateProfile());
     }
 
 
@@ -30,7 +30,7 @@ export class ProfileComponent implements OnInit {
     }
 
     getProfileName() {
-        return this.profile.first_name + " " + this.profile.last_name + " (" + this.profile.email + ")"
+        return this.profile.first_name + " " + this.profile.last_name + " (" + this.profile.email + ")";
     }
 
     logout() {
