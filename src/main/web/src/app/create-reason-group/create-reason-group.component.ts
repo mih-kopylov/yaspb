@@ -11,10 +11,10 @@ import {ActivatedRoute, Router} from "@angular/router";
     styleUrls: ["./create-reason-group.component.css"],
 })
 export class CreateReasonGroupComponent implements OnInit {
+    reasonsMapKeys: string[] = [];
+    request = new CreateReasonGroupRequest();
+    reasonGroups: ReasonGroup[] = [];
     private reasonsMap = new Map<string, InnerReason[]>();
-    private reasonsMapKeys: string[] = [];
-    private request = new CreateReasonGroupRequest();
-    private reasonGroups: ReasonGroup[] = [];
 
     constructor(
         private problemService: ProblemService,
