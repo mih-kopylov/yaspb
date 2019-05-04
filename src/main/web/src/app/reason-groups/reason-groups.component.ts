@@ -3,6 +3,7 @@ import {ProblemService} from "../services/problem.service";
 import {ReasonGroup} from "../model/reason-group";
 import {isDefined} from "@angular/compiler/src/util";
 import {ActivatedRoute, Router} from "@angular/router";
+import {Location} from "@angular/common";
 
 @Component({
     selector: "app-reason-groups",
@@ -18,6 +19,7 @@ export class ReasonGroupsComponent implements OnInit {
         private problemService: ProblemService,
         private router: Router,
         private route: ActivatedRoute,
+        private location: Location,
     ) {
     }
 
@@ -35,6 +37,10 @@ export class ReasonGroupsComponent implements OnInit {
             }
             return isDefined(o.parent) && o.parent.id === parentGroupId;
         });
+    }
+
+    navigateBack() {
+        this.location.back();
     }
 
     select(reasonGroup: ReasonGroup) {

@@ -1,8 +1,10 @@
 import {Component, OnInit} from "@angular/core";
+import {Location} from "@angular/common";
 import {ProblemService} from "../services/problem.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CreateProblemRequest} from "../model/create-problem-request";
 import {GeoService} from "../services/geo.service";
+import {MatSnackBar} from "@angular/material";
 
 @Component({
     selector: "app-create-problem",
@@ -18,6 +20,8 @@ export class CreateProblemComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private geoService: GeoService,
+        private snackBar: MatSnackBar,
+        private location: Location,
     ) {
     }
 
@@ -40,7 +44,13 @@ export class CreateProblemComponent implements OnInit {
     doSend() {
         this.model.latitude = this.geoService.getCoords().latitude;
         this.model.longitude = this.geoService.getCoords().longitude;
-        this.problemService.createProblem(this.model).subscribe(problem => console.log(problem));
+        this.problemService.createProblem(this.model).subscribe(problem => {
+                this.snackBar.open("Проблема " + problem.id + " создана", undefined, {
+                    duration: 3000,
+                });
+                this.location.back();
+            },
+        );
     }
 
 }

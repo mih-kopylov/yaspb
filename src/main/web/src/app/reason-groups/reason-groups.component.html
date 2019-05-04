@@ -1,6 +1,6 @@
 <div fxLayout="column">
     <div *ngIf="selectedGroupId">
-        <mat-card fxLayoutAlign="center">
+        <mat-card (click)="navigateBack()" fxLayoutAlign="center">
             <mat-card-title>{{getGroupById(selectedGroupId)?.name}}</mat-card-title>
         </mat-card>
     </div>

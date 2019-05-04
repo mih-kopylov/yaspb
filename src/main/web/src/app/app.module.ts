@@ -17,6 +17,7 @@ import {
     MatIconModule,
     MatInputModule,
     MatSelectModule,
+    MatSnackBarModule,
     MatTooltipModule,
 } from "@angular/material";
 import {FlexModule} from "@angular/flex-layout";
@@ -45,6 +46,7 @@ import {CreateReasonGroupComponent} from "./create-reason-group/create-reason-gr
         MatInputModule,
         MatButtonModule,
         MatCardModule,
+        MatSnackBarModule,
         MatIconModule,
         MatAutocompleteModule,
         MatTooltipModule,
