@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from './login/login.component';
 import {ReasonGroupsComponent} from "./reason-groups/reason-groups.component";
 import {CreateProblemComponent} from "./create-problem/create-problem.component";
+import {CreateReasonGroupComponent} from "./create-reason-group/create-reason-group.component";
 
 const routes: Routes = [
     {
@@ -16,6 +17,10 @@ const routes: Routes = [
     {
         path: "createProblem",
         component: CreateProblemComponent,
+    },
+    {
+        path: "createReasonGroup",
+        component: CreateReasonGroupComponent,
     }
 ];
 

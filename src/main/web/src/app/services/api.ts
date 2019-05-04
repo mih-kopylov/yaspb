@@ -9,5 +9,6 @@ export class Api {
     public static LOGIN: string = Api.BASE_URL + "/auth/login";
     public static PROFILE: string = Api.BASE_URL + "/profile";
     public static REASON_GROUPS: string = Api.BASE_URL + "/reasonGroups";
+    public static REASONS: string = Api.BASE_URL + "/reasons";
     public static PROBLEM: string = Api.BASE_URL + "/problems";
 }

@@ -1,0 +1,39 @@
+<div fxLayout="row" fxLayoutAlign="center">
+    <form #createReasonGroupForm
+          fxFlex.gt-lg="20"
+          fxFlex.gt-md="33"
+          fxFlex.gt-sm="40"
+          fxFlex.gt-xs="50"
+          fxFlex.xs="100"
+          fxLayout="column">
+        <mat-form-field>
+            <input matInput placeholder="Название" name="name" [(ngModel)]="request.name" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Группа</mat-label>
+            <mat-select [(ngModel)]="request.parentId" name="parent">
+                <mat-option>Не выбрано</mat-option>
+                <mat-option *ngFor="let group of reasonGroups" [value]="group.id">
+                    {{group.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Причина</mat-label>
+            <mat-select [(ngModel)]="request.reasonId" name="reason">
+                <mat-option>Не выбрано</mat-option>
+                <mat-optgroup *ngFor="let key of reasonsMapKeys" [label]="key">
+                    <mat-option *ngFor="let reason of reasonsMap.get(key)" [value]="reason.id">
+                        {{reason.name}}
+                    </mat-option>
+                </mat-optgroup>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <textarea matInput rows="3" placeholder="Сообщение" name="body" [(ngModel)]="request.body"></textarea>
+        </mat-form-field>
+        <button type="submit" mat-raised-button color="primary" (click)="create()"
+                [disabled]="!createReasonGroupForm.reportValidity()">Создать
+        </button>
+    </form>
+</div>

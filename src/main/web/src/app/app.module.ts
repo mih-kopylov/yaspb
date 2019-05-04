@@ -7,12 +7,20 @@ import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
 import {ReasonGroupsComponent} from './reason-groups/reason-groups.component';
 import {httpInterceptorProviders} from "./http-interceptors";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule} from "@angular/material";
+import {
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule, MatSelectModule, MatTooltipModule
+} from "@angular/material";
 import {FlexModule} from "@angular/flex-layout";
 import { CreateProblemComponent } from './create-problem/create-problem.component';
 import { ProfileComponent } from './profile/profile.component';
+import { CreateReasonGroupComponent } from './create-reason-group/create-reason-group.component';
 
 @NgModule({
     declarations: [
@@ -20,13 +28,15 @@ import { ProfileComponent } from './profile/profile.component';
         LoginComponent,
         ReasonGroupsComponent,
         CreateProblemComponent,
-        ProfileComponent
+        ProfileComponent,
+        CreateReasonGroupComponent,
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
         FormsModule,
+        ReactiveFormsModule,
         BrowserAnimationsModule,
         FlexModule,
         MatFormFieldModule,
@@ -34,6 +44,9 @@ import { ProfileComponent } from './profile/profile.component';
         MatButtonModule,
         MatCardModule,
         MatIconModule,
+        MatAutocompleteModule,
+        MatTooltipModule,
+        MatSelectModule,
     ],
     providers: [httpInterceptorProviders],
     bootstrap: [AppComponent]

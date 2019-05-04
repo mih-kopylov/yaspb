@@ -5,6 +5,8 @@ import {HttpClient} from "@angular/common/http";
 import {Api} from "./api";
 import {CreateProblemRequest} from "../model/create-problem-request";
 import {Problem} from "../model/problem";
+import {CityObject} from "../model/reason";
+import {CreateReasonGroupRequest} from "../model/create-reason-group-request";
 
 @Injectable({
     providedIn: 'root'
@@ -18,6 +20,14 @@ export class ProblemService {
 
     getReasonGroups(): Observable<ReasonGroup[]> {
         return this.httpClient.get<ReasonGroup[]>(Api.REASON_GROUPS);
+    }
+
+    createReasonGroup(request: CreateReasonGroupRequest): Observable<ReasonGroup> {
+        return this.httpClient.post<ReasonGroup>(Api.REASON_GROUPS, request);
+    }
+
+    getReasons(): Observable<CityObject[]> {
+        return this.httpClient.get<CityObject[]>(Api.REASONS);
     }
 
     createProblem(model: CreateProblemRequest): Observable<Problem> {
