@@ -3,7 +3,6 @@ import {ProblemService} from "../services/problem.service";
 import {ReasonGroup} from "../model/reason-group";
 import {isDefined} from "@angular/compiler/src/util";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Location} from "@angular/common";
 
 @Component({
     selector: "app-reason-groups",
@@ -13,20 +12,21 @@ import {Location} from "@angular/common";
 export class ReasonGroupsComponent implements OnInit {
 
     selectedGroupId: number;
+    selectedGroup: ReasonGroup;
     groups: ReasonGroup[] = [];
 
     constructor(
         private problemService: ProblemService,
         private router: Router,
         private route: ActivatedRoute,
-        private location: Location,
     ) {
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.selectedGroupId = params.parentId ? Number(params.parentId) : undefined;
+            this.selectedGroupId = params.parentId ? +params.parentId : undefined;
         });
+        this.loadSelectedReasonGroup();
         this.loadReasonGroups();
     }
 
@@ -40,11 +40,10 @@ export class ReasonGroupsComponent implements OnInit {
     }
 
     navigateBack() {
-        this.location.back();
-    }
-
-    edit() {
-
+        if (this.selectedGroup) {
+            let parentId = this.selectedGroup.parent ? this.selectedGroup.parent.id : undefined;
+            this.router.navigate(["/"], {queryParams: {"parentId": parentId}});
+        }
     }
 
     delete() {
@@ -73,6 +72,14 @@ export class ReasonGroupsComponent implements OnInit {
 
     private loadReasonGroups() {
         this.problemService.getReasonGroups().subscribe(groups => this.groups = groups);
+    }
+
+    private loadSelectedReasonGroup() {
+        if (isDefined(this.selectedGroupId)) {
+            this.problemService.getReasonGroup(this.selectedGroupId).subscribe(reasonGroup => {
+                this.selectedGroup = reasonGroup;
+            });
+        }
     }
 
 }
