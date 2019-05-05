@@ -13,17 +13,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.mihkopylov.myspb.controller.dto.ReasonGroupResponse;
-import ru.mihkopylov.myspb.model.ReasonGroup;
-import ru.mihkopylov.myspb.service.ReasonGroupService;
 import ru.mihkopylov.myspb.Const;
 import ru.mihkopylov.myspb.aspect.RefreshTokenIfRequired;
 import ru.mihkopylov.myspb.controller.dto.CreateReasonGroupRequest;
+import ru.mihkopylov.myspb.controller.dto.ReasonGroupResponse;
 import ru.mihkopylov.myspb.exception.ReasonGroupNotFoundException;
 import ru.mihkopylov.myspb.exception.UserNotFoundException;
 import ru.mihkopylov.myspb.interceptor.RequestContext;
+import ru.mihkopylov.myspb.model.ReasonGroup;
 import ru.mihkopylov.myspb.model.User;
-import ru.mihkopylov.myspb.service.UserService;
+import ru.mihkopylov.myspb.service.ReasonGroupService;
 
 import static java.util.stream.Collectors.toList;
 
@@ -35,8 +34,6 @@ public class ReasonGroupController {
     @NonNull
     private final ReasonGroupService reasonGroupService;
     @NonNull
-    private final UserService userService;
-    @NonNull
     private final RequestContext requestContext;
 
     @GetMapping
@@ -45,6 +42,16 @@ public class ReasonGroupController {
         log.debug( "get reason groups" );
         User user = requestContext.getUser().orElseThrow( UserNotFoundException :: new );
         return reasonGroupService.findByUser( user ).stream().map( ReasonGroupResponse :: new ).collect( toList() );
+    }
+
+    @GetMapping("/{id}")
+    @RefreshTokenIfRequired
+    public ReasonGroupResponse getGroup( @PathVariable("id") Long id ) {
+        log.debug( "get reason group" );
+        User user = requestContext.getUser().orElseThrow( UserNotFoundException :: new );
+        return reasonGroupService.findByUserAndId( user, id )
+                .map( ReasonGroupResponse :: new )
+                .orElseThrow( ReasonGroupNotFoundException :: new );
     }
 
     @PostMapping

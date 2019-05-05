@@ -18,6 +18,7 @@ export class CreateReasonGroupComponent implements OnInit {
     reasonGroups: ReasonGroup[] = [];
     creation: boolean = false;
     private reasonsMap = new Map<string, InnerReason[]>();
+    private id: number;
 
     constructor(
         private problemService: ProblemService,
@@ -36,8 +37,19 @@ export class CreateReasonGroupComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.route.params.subscribe(params => {
+            this.id = +params.id;
+            if (isDefined(this.id)) {
+                this.problemService.getReasonGroup(this.id).subscribe(reasonGroup => {
+                    this.request.name = reasonGroup.name;
+                    this.request.parentId = reasonGroup.parent.id;
+                    this.request.reasonId = reasonGroup.reasonId;
+                    this.request.body = reasonGroup.body;
+                });
+            }
+        });
         this.route.queryParams.subscribe(params => {
-            this.request.parentId = params.parentId ? Number(params.parentId) : undefined;
+            this.request.parentId = params.parentId ? +params.parentId : undefined;
         });
         this.problemService.getReasons().subscribe(cityObjects => {
             for (const cityObject of cityObjects) {
@@ -56,12 +68,15 @@ export class CreateReasonGroupComponent implements OnInit {
         this.problemService.getReasonGroups().subscribe(groups => this.reasonGroups = groups.filter(g => !isDefined(g.reasonId)));
     }
 
-    create() {
+    save() {
         this.creation = true;
-        this.problemService.createReasonGroup(this.request)
+        let observable = isDefined(this.id) ?
+            this.problemService.updateReasonGroup(this.id, this.request) :
+            this.problemService.createReasonGroup(this.request);
+        observable
             .pipe(
                 finalize(() => this.creation = false))
-            .subscribe(() => this.router.navigate(["/"], {queryParams: {"parentId": this.request.parentId}}),
+            .subscribe(() => this.router.navigate(["/"], {queryParams: {"parentId": this.id ? this.id : this.request.parentId}}),
                 error => {
                     let message: string = CreateReasonGroupComponent.getErrorMessageByStatus(error.status);
                     this.snackBar.open(message);

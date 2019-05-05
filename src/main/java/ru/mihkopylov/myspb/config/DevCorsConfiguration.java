@@ -15,7 +15,12 @@ public class DevCorsConfiguration {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings( CorsRegistry registry ) {
-                registry.addMapping( "/**" ).allowedHeaders( "*" ).exposedHeaders( Const.TOKEN ).allowedOrigins( "*" ).allowCredentials( true );
+                registry.addMapping( "/**" )
+                        .allowedHeaders( "*" )
+                        .exposedHeaders( Const.TOKEN )
+                        .allowedOrigins( "*" )
+                        .allowedMethods( "GET", "POST","PUT", "DELETE", "OPTIONS" )
+                        .allowCredentials( true );
             }
         };
     }

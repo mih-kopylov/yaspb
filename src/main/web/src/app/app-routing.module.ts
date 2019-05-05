@@ -19,7 +19,11 @@ const routes: Routes = [
         component: CreateProblemComponent,
     },
     {
-        path: "createReasonGroup",
+        path: "reasonGroup",
+        component: CreateReasonGroupComponent,
+    },
+    {
+        path: "reasonGroup/:id",
         component: CreateReasonGroupComponent,
     },
 ];

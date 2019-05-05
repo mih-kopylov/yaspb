@@ -3,4 +3,5 @@ export class ReasonGroup {
     name: string;
     parent: ReasonGroup;
     reasonId: number;
+    body: string;
 }

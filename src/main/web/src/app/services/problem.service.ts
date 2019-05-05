@@ -26,6 +26,10 @@ export class ProblemService {
         return this.httpClient.post<ReasonGroup>(Api.REASON_GROUPS, request);
     }
 
+    updateReasonGroup(reasonGroupId: number, request: CreateReasonGroupRequest): Observable<ReasonGroup> {
+        return this.httpClient.put<ReasonGroup>(Api.REASON_GROUPS + "/" + reasonGroupId, request);
+    }
+
     getReasons(): Observable<CityObject[]> {
         return this.httpClient.get<CityObject[]>(Api.REASONS);
     }
@@ -37,5 +41,13 @@ export class ProblemService {
         body.append("longitude", model.longitude.toString());
         model.files.forEach(file => body.append("files", file, file.name));
         return this.httpClient.post<Problem>(Api.PROBLEM, body);
+    }
+
+    deleteReasonGroup(reasonGroupId: number): Observable<any> {
+        return this.httpClient.delete(Api.REASON_GROUPS + "/" + reasonGroupId);
+    }
+
+    getReasonGroup(reasonGroupId: number): Observable<ReasonGroup> {
+        return this.httpClient.get<ReasonGroup>(Api.REASON_GROUPS + "/" + reasonGroupId);
     }
 }

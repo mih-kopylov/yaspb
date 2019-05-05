@@ -43,6 +43,19 @@ export class ReasonGroupsComponent implements OnInit {
         this.location.back();
     }
 
+    edit() {
+
+    }
+
+    delete() {
+        if (confirm("Удалить?")) {
+            this.problemService.deleteReasonGroup(this.selectedGroupId).subscribe(() => {
+                this.loadReasonGroups();
+                this.navigateBack();
+            });
+        }
+    }
+
     select(reasonGroup: ReasonGroup) {
         if (isDefined(reasonGroup.reasonId)) {
             this.router.navigate(["/createProblem"], {queryParams: {"reasonGroupId": reasonGroup.id}});
