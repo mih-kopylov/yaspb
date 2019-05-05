@@ -45,8 +45,12 @@ export class CreateProblemComponent implements OnInit {
         this.model.latitude = this.geoService.getCoords().latitude;
         this.model.longitude = this.geoService.getCoords().longitude;
         this.problemService.createProblem(this.model).subscribe(problem => {
-                this.snackBar.open("Проблема " + problem.id + " создана", undefined, {
+                this.snackBar.open("Проблема " + problem.id + " создана", "Открыть", {
                     duration: 3000,
+                }).afterDismissed().subscribe((dismissReason) => {
+                    if (dismissReason.dismissedByAction) {
+                        window.open("https://gorod.gov.spb.ru/problems/" + problem.id, "_blank");
+                    }
                 });
                 this.location.back();
             },
