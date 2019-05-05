@@ -25,9 +25,9 @@ export class ReasonGroupsComponent implements OnInit {
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.selectedGroupId = params.parentId ? +params.parentId : undefined;
+            this.loadSelectedReasonGroup(this.selectedGroupId);
+            this.loadReasonGroups();
         });
-        this.loadSelectedReasonGroup();
-        this.loadReasonGroups();
     }
 
     getReasonGroupsByParent(parentGroupId: number): ReasonGroup[] {
@@ -42,14 +42,13 @@ export class ReasonGroupsComponent implements OnInit {
     navigateBack() {
         if (this.selectedGroup) {
             let parentId = this.selectedGroup.parent ? this.selectedGroup.parent.id : undefined;
-            this.router.navigate(["/"], {queryParams: {"parentId": parentId}});
+            this.router.navigate(["/"], parentId ? {queryParams: {"parentId": parentId}} : {});
         }
     }
 
     delete() {
         if (confirm("Удалить?")) {
             this.problemService.deleteReasonGroup(this.selectedGroupId).subscribe(() => {
-                this.loadReasonGroups();
                 this.navigateBack();
             });
         }
@@ -74,9 +73,9 @@ export class ReasonGroupsComponent implements OnInit {
         this.problemService.getReasonGroups().subscribe(groups => this.groups = groups);
     }
 
-    private loadSelectedReasonGroup() {
-        if (isDefined(this.selectedGroupId)) {
-            this.problemService.getReasonGroup(this.selectedGroupId).subscribe(reasonGroup => {
+    private loadSelectedReasonGroup(id: number) {
+        if (isDefined(id)) {
+            this.problemService.getReasonGroup(id).subscribe(reasonGroup => {
                 this.selectedGroup = reasonGroup;
             });
         }
