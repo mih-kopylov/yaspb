@@ -1,6 +1,7 @@
 <div fxLayout="column">
     <div *ngIf="selectedGroupId">
         <mat-card (click)="navigateBack()" fxLayoutAlign="center">
+            <mat-icon>arrow_back_ios</mat-icon>
             <mat-card-title>{{getGroupById(selectedGroupId)?.name}}</mat-card-title>
         </mat-card>
     </div>
@@ -13,7 +14,11 @@
                   fxFlex.xs="100"
                   fxLayoutAlign="center"
         >
-            <mat-card-title>{{group.name}}</mat-card-title>
+            <mat-icon *ngIf="!group.reasonId">folder</mat-icon>
+            <mat-icon *ngIf="group.reasonId">add_circle_outline</mat-icon>
+            <mat-card-title>
+                <span>{{group.name}}</span>
+            </mat-card-title>
         </mat-card>
     </div>
 </div>
