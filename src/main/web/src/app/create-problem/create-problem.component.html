@@ -1,16 +1,19 @@
-<div fxLayout="row" fxLayoutAlign="center">
-    <div fxFlex.gt-lg="20"
-         fxFlex.gt-md="30"
-         fxFlex.gt-sm="40"
-         fxFlex.gt-xs="50"
-         fxFlex.xs="100"
-    >
-        <form #createProblemForm="ngForm" fxLayout="column" fxLayoutGap="10px">
-            <button (click)="fileInput.click()" mat-raised-button>Выбрать фото</button>
-            <input #fileInput (change)="onFileSelect($event)" hidden multiple name="files" type="file">
+<div fxLayout="column">
+    <app-parent-reason-group [groupId]="model.reasonGroupId"></app-parent-reason-group>
+    <div fxLayout="row" fxLayoutAlign="center">
+        <div fxFlex.gt-lg="20"
+             fxFlex.gt-md="30"
+             fxFlex.gt-sm="40"
+             fxFlex.gt-xs="50"
+             fxFlex.xs="100"
+        >
+            <form #createProblemForm="ngForm" fxLayout="column" fxLayoutGap="10px">
+                <button (click)="fileInput.click()" mat-raised-button>Выбрать фото</button>
+                <input #fileInput (change)="onFileSelect($event)" hidden multiple name="files" type="file">
 
-            <button (click)="doSend()" color="primary" mat-raised-button type="submit">Отправить</button>
-        </form>
+                <button (click)="doSend()" color="primary" mat-raised-button type="submit">Отправить</button>
+            </form>
+        </div>
     </div>
-</div>
 
+</div>

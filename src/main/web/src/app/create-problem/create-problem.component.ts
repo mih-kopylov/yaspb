@@ -27,7 +27,7 @@ export class CreateProblemComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.model.reasonGroupId = Number(params.reasonGroupId);
+            this.model.reasonGroupId = +params.parentId;
         });
     }
 

@@ -1,20 +1,5 @@
 <div fxLayout="column">
-    <div *ngIf="selectedGroupId" class="parent-reason-group">
-        <mat-card fxLayoutAlign="center center">
-            <button mat-icon-button (click)="navigateBack()">
-                <mat-icon>arrow_back_ios</mat-icon>
-            </button>
-            <span fxFlex></span>
-            <mat-card-title>{{getGroupById(selectedGroupId)?.name}}</mat-card-title>
-            <span fxFlex></span>
-            <button mat-icon-button [routerLink]="['/reasonGroup', selectedGroupId]">
-                <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="delete()">
-                <mat-icon>delete</mat-icon>
-            </button>
-        </mat-card>
-    </div>
+    <app-parent-reason-group *ngIf="selectedGroupId" [groupId]="selectedGroupId"></app-parent-reason-group>
     <div fxLayout="row wrap" fxLayoutGap="20px grid">
         <div *ngFor="let group of getReasonGroupsByParent(selectedGroupId)"
              fxFlex.gt-lg="20"

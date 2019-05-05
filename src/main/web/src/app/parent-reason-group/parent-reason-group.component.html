@@ -1,0 +1,16 @@
+<div class="parent-reason-group">
+    <mat-card fxLayoutAlign="center center">
+        <button mat-icon-button (click)="navigateBack()">
+            <mat-icon>arrow_back_ios</mat-icon>
+        </button>
+        <span fxFlex></span>
+        <mat-card-title>{{group.name}}</mat-card-title>
+        <span fxFlex></span>
+        <button mat-icon-button [routerLink]="['/reasonGroup', groupId]">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="delete()">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </mat-card>
+</div>

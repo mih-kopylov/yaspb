@@ -25,6 +25,7 @@ import {FlexModule} from "@angular/flex-layout";
 import {CreateProblemComponent} from "./create-problem/create-problem.component";
 import {ProfileComponent} from "./profile/profile.component";
 import {CreateReasonGroupComponent} from "./create-reason-group/create-reason-group.component";
+import { ParentReasonGroupComponent } from './parent-reason-group/parent-reason-group.component';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import {CreateReasonGroupComponent} from "./create-reason-group/create-reason-gr
         CreateProblemComponent,
         ProfileComponent,
         CreateReasonGroupComponent,
+        ParentReasonGroupComponent,
     ],
     imports: [
         BrowserModule,

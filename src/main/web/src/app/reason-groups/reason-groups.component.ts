@@ -12,7 +12,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class ReasonGroupsComponent implements OnInit {
 
     selectedGroupId: number;
-    selectedGroup: ReasonGroup;
     groups: ReasonGroup[] = [];
 
     constructor(
@@ -25,7 +24,6 @@ export class ReasonGroupsComponent implements OnInit {
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.selectedGroupId = params.parentId ? +params.parentId : undefined;
-            this.loadSelectedReasonGroup(this.selectedGroupId);
             this.loadReasonGroups();
         });
     }
@@ -39,46 +37,14 @@ export class ReasonGroupsComponent implements OnInit {
         });
     }
 
-    navigateBack() {
-        if (this.selectedGroup) {
-            let parentId = this.selectedGroup.parent ? this.selectedGroup.parent.id : undefined;
-            this.router.navigate(["/"], parentId ? {queryParams: {"parentId": parentId}} : {});
-        }
-    }
-
-    delete() {
-        if (confirm("Удалить?")) {
-            this.problemService.deleteReasonGroup(this.selectedGroupId).subscribe(() => {
-                this.navigateBack();
-            });
-        }
-    }
-
     select(reasonGroup: ReasonGroup) {
-        if (isDefined(reasonGroup.reasonId)) {
-            this.router.navigate(["/createProblem"], {queryParams: {"reasonGroupId": reasonGroup.id}});
-        } else {
-            this.router.navigate(["/"], {queryParams: {"parentId": reasonGroup.id}});
-        }
-    }
-
-    getGroupById(groupId): ReasonGroup {
-        if (!isDefined(groupId)) {
-            return undefined;
-        }
-        return this.groups.filter(o => o.id === groupId)[0];
+        let url = isDefined(reasonGroup.reasonId) ? "/createProblem" : "/";
+        return this.router.navigate([url], {queryParams: {"parentId": reasonGroup.id}});
     }
 
     private loadReasonGroups() {
         this.problemService.getReasonGroups().subscribe(groups => this.groups = groups);
     }
 
-    private loadSelectedReasonGroup(id: number) {
-        if (isDefined(id)) {
-            this.problemService.getReasonGroup(id).subscribe(reasonGroup => {
-                this.selectedGroup = reasonGroup;
-            });
-        }
-    }
 
 }
