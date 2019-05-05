@@ -38,7 +38,7 @@ export class CreateReasonGroupComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.id = +params.id;
+            this.id = isDefined(params.id) ? +params.id : undefined;
             if (isDefined(this.id)) {
                 this.problemService.getReasonGroup(this.id).subscribe(reasonGroup => {
                     this.request.name = reasonGroup.name;
