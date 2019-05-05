@@ -1,25 +1,32 @@
 <div fxLayout="column">
-    <div *ngIf="selectedGroupId">
-        <mat-card (click)="navigateBack()" fxLayoutAlign="center">
-            <mat-icon>arrow_back_ios</mat-icon>
+    <div *ngIf="selectedGroupId" class="parent-reason-group">
+        <mat-card fxLayoutAlign="center center">
+            <button mat-icon-button (click)="navigateBack()">
+                <mat-icon>arrow_back_ios</mat-icon>
+            </button>
             <mat-card-title>{{getGroupById(selectedGroupId)?.name}}</mat-card-title>
         </mat-card>
     </div>
-    <div fxLayout="row wrap">
-        <mat-card (click)="select(group)" *ngFor="let group of getReasonGroupsByParent(selectedGroupId)"
-                  fxFlex.gt-lg="20"
-                  fxFlex.gt-md="33"
-                  fxFlex.gt-sm="40"
-                  fxFlex.gt-xs="50"
-                  fxFlex.xs="100"
-                  fxLayoutAlign="center"
+    <div fxLayout="row wrap" fxLayoutGap="20px grid">
+        <div *ngFor="let group of getReasonGroupsByParent(selectedGroupId)"
+             fxFlex.gt-lg="20"
+             fxFlex.gt-md="33.3"
+             fxFlex.gt-sm="40"
+             fxFlex.gt-xs="50"
+             fxFlex.xs="100"
         >
-            <mat-icon *ngIf="!group.reasonId">folder</mat-icon>
-            <mat-icon *ngIf="group.reasonId">add_circle_outline</mat-icon>
-            <mat-card-title>
-                <span>{{group.name}}</span>
-            </mat-card-title>
-        </mat-card>
+            <mat-card (click)="select(group)"
+                      fxLayoutAlign="center center"
+            >
+                <button mat-icon-button>
+                    <mat-icon *ngIf="!group.reasonId">folder</mat-icon>
+                    <mat-icon *ngIf="group.reasonId">add_circle_outline</mat-icon>
+                </button>
+                <mat-card-title>
+                    <span>{{group.name}}</span>
+                </mat-card-title>
+            </mat-card>
+        </div>
     </div>
 </div>
 <button [queryParams]="{parentId: selectedGroupId}" class="create-reason-group" color="primary" mat-fab
