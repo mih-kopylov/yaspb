@@ -10,6 +10,7 @@ import {httpInterceptorProviders} from "./http-interceptors";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {
+    MAT_SNACK_BAR_DEFAULT_OPTIONS,
     MatAutocompleteModule,
     MatButtonModule,
     MatCardModule,
@@ -52,7 +53,7 @@ import {CreateReasonGroupComponent} from "./create-reason-group/create-reason-gr
         MatTooltipModule,
         MatSelectModule,
     ],
-    providers: [httpInterceptorProviders],
+    providers: [httpInterceptorProviders, {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3000}}],
     bootstrap: [AppComponent],
 })
 export class AppModule {
