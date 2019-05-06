@@ -11,7 +11,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class ParentReasonGroupComponent implements OnInit {
     @Input() groupId: number;
-    group: ReasonGroup;
+    group: ReasonGroup = new ReasonGroup();
 
     constructor(
         private problemService: ProblemService,
