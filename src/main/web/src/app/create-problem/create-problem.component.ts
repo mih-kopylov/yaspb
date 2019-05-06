@@ -15,6 +15,7 @@ import {finalize} from "rxjs/operators";
 export class CreateProblemComponent implements OnInit {
     creating = false;
     model = new CreateProblemRequest();
+    files: SelectedFile[] = [];
 
     constructor(
         private problemService: ProblemService,
@@ -37,14 +38,27 @@ export class CreateProblemComponent implements OnInit {
         if (files.length > 0) {
             for (let i = 0; i < files.length; i++) {
                 let file = files[i];
-                this.model.files.push(file);
+                let selectedFile = new SelectedFile();
+                selectedFile.file = file;
+                this.files.push(selectedFile);
+
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = ev => selectedFile.preview = ev.target.result;
             }
         }
+    }
+
+    deleteFile(file) {
+        this.files.splice(this.files.indexOf(file), 1);
     }
 
     doSend() {
         this.model.latitude = this.geoService.getCoords().latitude;
         this.model.longitude = this.geoService.getCoords().longitude;
+        for (const file of this.files) {
+            this.model.files.push(file.file);
+        }
         this.creating = true;
         this.problemService.createProblem(this.model).pipe(
             finalize(() => this.creating = false),
@@ -60,4 +74,9 @@ export class CreateProblemComponent implements OnInit {
         );
     }
 
+}
+
+class SelectedFile {
+    file: File;
+    preview: string;
 }

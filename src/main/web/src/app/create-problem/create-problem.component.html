@@ -11,12 +11,17 @@
                 <button (click)="fileInput.click()" mat-raised-button>Выбрать фото</button>
                 <input #fileInput (change)="onFileSelect($event)" hidden multiple name="files" type="file">
 
+                <div fxLayout="row" fxLayoutGap="5px">
+                    <img *ngFor="let file of files" [src]="file.preview" height="100" alt="preview" (click)="deleteFile(file)">
+                </div>
+
                 <button (click)="doSend()"
                         color="primary"
                         mat-raised-button
                         type="submit"
                         [disabled]="creating"
-                >Отправить</button>
+                >Отправить
+                </button>
             </form>
         </div>
     </div>
