@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
+import {Observable, throwError} from "rxjs";
 import {ReasonGroup} from "../model/reason-group";
 import {HttpClient} from "@angular/common/http";
 import {Api} from "./api";
@@ -7,6 +7,8 @@ import {CreateProblemRequest} from "../model/create-problem-request";
 import {Problem} from "../model/problem";
 import {CityObject} from "../model/reason";
 import {CreateReasonGroupRequest} from "../model/create-reason-group-request";
+import {catchError} from "rxjs/operators";
+import {MatSnackBar} from "@angular/material";
 
 @Injectable({
     providedIn: "root",
@@ -15,6 +17,7 @@ export class ProblemService {
 
     constructor(
         private httpClient: HttpClient,
+        private snackBar: MatSnackBar,
     ) {
     }
 
@@ -40,7 +43,12 @@ export class ProblemService {
         body.append("latitude", model.latitude.toString());
         body.append("longitude", model.longitude.toString());
         model.files.forEach(file => body.append("files", file, file.name));
-        return this.httpClient.post<Problem>(Api.PROBLEM, body);
+        return this.httpClient.post<Problem>(Api.PROBLEM, body).pipe(
+            catchError(error => {
+                this.snackBar.open("Не удалось создать обращение");
+                return throwError(error);
+            })
+        );
     }
 
     deleteReasonGroup(reasonGroupId: number): Observable<any> {

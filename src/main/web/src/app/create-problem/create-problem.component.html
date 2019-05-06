@@ -11,7 +11,12 @@
                 <button (click)="fileInput.click()" mat-raised-button>Выбрать фото</button>
                 <input #fileInput (change)="onFileSelect($event)" hidden multiple name="files" type="file">
 
-                <button (click)="doSend()" color="primary" mat-raised-button type="submit">Отправить</button>
+                <button (click)="doSend()"
+                        color="primary"
+                        mat-raised-button
+                        type="submit"
+                        [disabled]="creating"
+                >Отправить</button>
             </form>
         </div>
     </div>

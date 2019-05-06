@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {CreateProblemRequest} from "../model/create-problem-request";
 import {GeoService} from "../services/geo.service";
 import {MatSnackBar} from "@angular/material";
+import {finalize} from "rxjs/operators";
 
 @Component({
     selector: "app-create-problem",
@@ -12,7 +13,7 @@ import {MatSnackBar} from "@angular/material";
     styleUrls: ["./create-problem.component.css"],
 })
 export class CreateProblemComponent implements OnInit {
-
+    creating = false;
     model = new CreateProblemRequest();
 
     constructor(
@@ -44,8 +45,11 @@ export class CreateProblemComponent implements OnInit {
     doSend() {
         this.model.latitude = this.geoService.getCoords().latitude;
         this.model.longitude = this.geoService.getCoords().longitude;
-        this.problemService.createProblem(this.model).subscribe(problem => {
-                this.snackBar.open("Проблема " + problem.id + " создана", "Открыть")
+        this.creating = true;
+        this.problemService.createProblem(this.model).pipe(
+            finalize(() => this.creating = false),
+        ).subscribe(problem => {
+                this.snackBar.open("Обращение " + problem.id + " создано", "Открыть")
                     .afterDismissed().subscribe((dismissReason) => {
                     if (dismissReason.dismissedByAction) {
                         window.open("https://gorod.gov.spb.ru/problems/" + problem.id, "_blank");

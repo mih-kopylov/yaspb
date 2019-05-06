@@ -33,7 +33,7 @@
             <textarea [(ngModel)]="request.body" matInput name="body" placeholder="Сообщение" rows="3"></textarea>
         </mat-form-field>
         <button (click)="save()"
-                [disabled]="!createReasonGroupForm.reportValidity() || creation"
+                [disabled]="!createReasonGroupForm.reportValidity() || creating"
                 color="primary"
                 mat-raised-button
                 type="submit">

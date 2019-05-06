@@ -16,7 +16,7 @@ export class CreateReasonGroupComponent implements OnInit {
     reasonsMapKeys: string[] = [];
     request = new CreateReasonGroupRequest();
     reasonGroups: ReasonGroup[] = [];
-    creation: boolean = false;
+    creating: boolean = false;
     private reasonsMap = new Map<string, InnerReason[]>();
     private id: number;
 
@@ -69,13 +69,13 @@ export class CreateReasonGroupComponent implements OnInit {
     }
 
     save() {
-        this.creation = true;
+        this.creating = true;
         let observable = isDefined(this.id) ?
             this.problemService.updateReasonGroup(this.id, this.request) :
             this.problemService.createReasonGroup(this.request);
         observable
             .pipe(
-                finalize(() => this.creation = false))
+                finalize(() => this.creating = false))
             .subscribe(() => this.router.navigate(["/"], {queryParams: {"parentId": this.id ? this.id : this.request.parentId}}),
                 error => {
                     let message: string = CreateReasonGroupComponent.getErrorMessageByStatus(error.status);
