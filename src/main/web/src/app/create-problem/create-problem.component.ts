@@ -44,7 +44,9 @@ export class CreateProblemComponent implements OnInit {
 
                 let reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = ev => selectedFile.preview = ev.target.result;
+                reader.onload = () => {
+                    return selectedFile.preview = reader.result;
+                };
             }
         }
     }
@@ -78,5 +80,5 @@ export class CreateProblemComponent implements OnInit {
 
 class SelectedFile {
     file: File;
-    preview: string;
+    preview: string | ArrayBuffer;
 }
