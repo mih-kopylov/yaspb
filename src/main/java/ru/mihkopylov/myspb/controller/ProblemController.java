@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.mihkopylov.myspb.Const;
-import ru.mihkopylov.myspb.service.ProblemsService;
-import ru.mihkopylov.myspb.service.dto.ShortProblemResponse;
 import ru.mihkopylov.myspb.aspect.RefreshTokenIfRequired;
 import ru.mihkopylov.myspb.controller.dto.CreateProblemRequest;
+import ru.mihkopylov.myspb.service.ProblemsService;
 import ru.mihkopylov.myspb.service.dto.ProblemResponse;
+import ru.mihkopylov.myspb.service.dto.ShortProblemResponse;
 
 @RestController
 @RequestMapping(Const.REST + "/problems")
@@ -44,7 +44,12 @@ public class ProblemController {
     @RefreshTokenIfRequired
     public ProblemResponse createProblem( @ModelAttribute @Valid CreateProblemRequest request ) {
         log.debug( "create problem" );
-        return problemsService.createProblem( request.getReasonGroupId(), request.getLatitude(), request.getLongitude(),
-                request.getFiles() );
+        log.info( "start problem creating" );
+        try {
+            return problemsService.createProblem( request.getReasonGroupId(), request.getLatitude(),
+                    request.getLongitude(), request.getFiles() );
+        } finally {
+            log.info( "end problem creating" );
+        }
     }
 }
