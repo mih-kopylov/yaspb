@@ -8,7 +8,10 @@
              fxFlex.xs="100"
         >
             <form #createProblemForm="ngForm" fxLayout="column" fxLayoutGap="10px">
-                <button (click)="fileInput.click()" mat-raised-button>Выбрать фото</button>
+                <button (click)="fileInput.click()"
+                        mat-raised-button
+                        [disabled]="creating"
+                >Выбрать фото</button>
                 <input #fileInput (change)="onFileSelect($event)" hidden multiple name="files" type="file">
 
                 <div fxLayout="row" fxLayoutGap="5px">

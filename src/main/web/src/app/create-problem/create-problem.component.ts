@@ -1,5 +1,4 @@
-import {Component, OnInit} from "@angular/core";
-import {Location} from "@angular/common";
+import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {ProblemService} from "../services/problem.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CreateProblemRequest} from "../model/create-problem-request";
@@ -16,6 +15,8 @@ export class CreateProblemComponent implements OnInit {
     creating = false;
     model = new CreateProblemRequest();
     files: SelectedFile[] = [];
+    @ViewChild("fileInput")
+    fileInput: ElementRef;
 
     constructor(
         private problemService: ProblemService,
@@ -23,7 +24,6 @@ export class CreateProblemComponent implements OnInit {
         private route: ActivatedRoute,
         private geoService: GeoService,
         private snackBar: MatSnackBar,
-        private location: Location,
     ) {
     }
 
@@ -49,6 +49,7 @@ export class CreateProblemComponent implements OnInit {
                 };
             }
         }
+        this.fileInput.nativeElement.value = "";
     }
 
     deleteFile(file) {
@@ -58,6 +59,7 @@ export class CreateProblemComponent implements OnInit {
     doSend() {
         this.model.latitude = this.geoService.getCoords().latitude;
         this.model.longitude = this.geoService.getCoords().longitude;
+        this.model.files = [];
         for (const file of this.files) {
             this.model.files.push(file.file);
         }
@@ -65,13 +67,13 @@ export class CreateProblemComponent implements OnInit {
         this.problemService.createProblem(this.model).pipe(
             finalize(() => this.creating = false),
         ).subscribe(problem => {
+                this.files = [];
                 this.snackBar.open("Обращение " + problem.id + " создано", "Открыть")
                     .afterDismissed().subscribe((dismissReason) => {
                     if (dismissReason.dismissedByAction) {
                         window.open("https://gorod.gov.spb.ru/problems/" + problem.id, "_blank");
                     }
                 });
-                this.location.back();
             },
         );
     }

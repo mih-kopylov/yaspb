@@ -47,7 +47,7 @@ export class ProblemService {
             catchError(error => {
                 this.snackBar.open("Не удалось создать обращение");
                 return throwError(error);
-            })
+            }),
         );
     }
 
