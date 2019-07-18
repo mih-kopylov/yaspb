@@ -67,7 +67,7 @@ export class CreateProblemComponent implements OnInit {
         this.problemService.createProblem(this.model).pipe(
             finalize(() => this.creating = false),
         ).subscribe(problem => {
-                this.files = [];
+                this.doReset();
                 this.snackBar.open("Обращение " + problem.id + " создано", "Открыть")
                     .afterDismissed().subscribe((dismissReason) => {
                     if (dismissReason.dismissedByAction) {
@@ -76,6 +76,12 @@ export class CreateProblemComponent implements OnInit {
                 });
             },
         );
+    }
+
+    doReset() {
+        this.model = new CreateProblemRequest();
+        this.files = [];
+        this.creating = false;
     }
 
 }
