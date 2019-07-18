@@ -2,6 +2,7 @@ package ru.mihkopylov.myspb.service;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.function.Supplier;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import ru.mihkopylov.myspb.interceptor.RequestContext;
 
 @Service
@@ -27,14 +29,23 @@ public class HttpService {
 
     @NonNull
     public <T> T get( @NonNull String url, @NonNull Class<T> responseClass ) {
-        return get( url, ParameterizedTypeReference.forType( responseClass ) );
+        return get( url, ParameterizedTypeReference.forType( responseClass ), Map.of() );
     }
 
     @NonNull
-    public <T> T get( @NonNull String url, @NonNull ParameterizedTypeReference<T> responseType ) {
+    public <T> T get( @NonNull String url, @NonNull Class<T> responseClass,
+            @NonNull Map<String, Object> queryParameters ) {
+        return get( url, ParameterizedTypeReference.forType( responseClass ), queryParameters );
+    }
+
+    @NonNull
+    public <T> T get( @NonNull String url, @NonNull ParameterizedTypeReference<T> responseType,
+            @NonNull Map<String, Object> queryParameters ) {
         RestTemplate restTemplate = new RestTemplate();
-        RequestEntity<String> requestEntity =
-                new RequestEntity<>( createAuthHeaders(), HttpMethod.GET, URI.create( url ) );
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl( url );
+        queryParameters.forEach( uriBuilder :: queryParam );
+        URI uri = uriBuilder.build().toUri();
+        RequestEntity<String> requestEntity = new RequestEntity<>( createAuthHeaders(), HttpMethod.GET, uri );
         return wrapLoggingClientException( () -> restTemplate.exchange( requestEntity, responseType ).getBody() );
     }
 
