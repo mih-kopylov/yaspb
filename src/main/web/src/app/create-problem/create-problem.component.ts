@@ -79,7 +79,6 @@ export class CreateProblemComponent implements OnInit {
     }
 
     doReset() {
-        this.model = new CreateProblemRequest();
         this.files = [];
         this.creating = false;
     }
