@@ -84,6 +84,7 @@ public class ProblemsService {
                 BuildingResponse nearestBuilding = mapsService.getNearestBuilding( latitude, longitude );
                 body.add( "latitude", nearestBuilding.getLatitude() );
                 body.add( "longitude", nearestBuilding.getLongitude() );
+                body.add( "building", nearestBuilding.getId() );
                 break;
             case STREET:
                 body.add( "latitude", latitude );
