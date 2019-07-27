@@ -108,6 +108,11 @@
                     <workingDirectory>src/main/web</workingDirectory>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>ru.omickron</groupId>
+                <artifactId>versioner-maven-plugin</artifactId>
+                <version>2.1.0</version>
+            </plugin>
         </plugins>
         <finalName>myspb</finalName>
     </build>
