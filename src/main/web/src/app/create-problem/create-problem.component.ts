@@ -67,7 +67,9 @@ export class CreateProblemComponent implements OnInit {
         this.problemService.createProblem(this.model).pipe(
             finalize(() => this.creating = false),
         ).subscribe(problem => {
-                this.doReset();
+                if (this.creating) {
+                    this.doReset();
+                }
                 this.snackBar.open("Обращение " + problem.id + " создано", "Открыть")
                     .afterDismissed().subscribe((dismissReason) => {
                     if (dismissReason.dismissedByAction) {
