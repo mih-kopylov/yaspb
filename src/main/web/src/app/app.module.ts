@@ -14,6 +14,7 @@ import {
     MatAutocompleteModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
@@ -25,7 +26,8 @@ import {FlexModule} from "@angular/flex-layout";
 import {CreateProblemComponent} from "./create-problem/create-problem.component";
 import {ProfileComponent} from "./profile/profile.component";
 import {CreateReasonGroupComponent} from "./create-reason-group/create-reason-group.component";
-import { ParentReasonGroupComponent } from './parent-reason-group/parent-reason-group.component';
+import {ParentReasonGroupComponent} from "./parent-reason-group/parent-reason-group.component";
+import {ImportReasonGroupsDialogComponent} from "./profile/import-reason-groups-dialog/import-reason-groups-dialog.component";
 
 @NgModule({
     declarations: [
@@ -36,6 +38,10 @@ import { ParentReasonGroupComponent } from './parent-reason-group/parent-reason-
         ProfileComponent,
         CreateReasonGroupComponent,
         ParentReasonGroupComponent,
+        ImportReasonGroupsDialogComponent,
+    ],
+    entryComponents: [
+        ImportReasonGroupsDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -54,6 +60,7 @@ import { ParentReasonGroupComponent } from './parent-reason-group/parent-reason-
         MatAutocompleteModule,
         MatTooltipModule,
         MatSelectModule,
+        MatDialogModule,
     ],
     providers: [httpInterceptorProviders, {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3000}}],
     bootstrap: [AppComponent],

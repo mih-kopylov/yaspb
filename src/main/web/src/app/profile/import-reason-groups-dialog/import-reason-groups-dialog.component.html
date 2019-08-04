@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Укажите логин пользователя для импорта</h1>
+<div mat-dialog-content>
+    <p>Логин</p>
+    <mat-form-field>
+        <input [(ngModel)]="data.login" cdkFocusInitial matInput>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button (click)="onNoClick()" mat-button>Отмена</button>
+    <button [mat-dialog-close]="data"
+            color="primary"
+            mat-button
+            mat-raised-button
+    >Клонировать
+    </button>
+</div>

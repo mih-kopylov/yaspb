@@ -58,4 +58,13 @@ export class ProblemService {
     getReasonGroup(reasonGroupId: number): Observable<ReasonGroup> {
         return this.httpClient.get<ReasonGroup>(Api.REASON_GROUPS + "/" + reasonGroupId);
     }
+
+    importReasonGroups(login: string): Observable<any> {
+        return this.httpClient.post(Api.REASON_GROUPS + "/import", {login: login}).pipe(
+            catchError(error => {
+                this.snackBar.open("Не удалось импортировать шаблоны");
+                return throwError(error);
+            }),
+        );
+    }
 }

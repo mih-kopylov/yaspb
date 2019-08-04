@@ -11,6 +11,8 @@ import ru.mihkopylov.myspb.model.User;
 public interface ReasonGroupDao extends JpaRepository<ReasonGroup, Long> {
     @NonNull List<ReasonGroup> findByUser( @NonNull User user );
 
+    void deleteByUser( @NonNull User user );
+
     @NonNull Optional<ReasonGroup> findByUserAndId( @NonNull User user, @NonNull Long id );
 
     @NonNull

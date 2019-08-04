@@ -39,4 +39,9 @@ public class UserService {
     public Optional<User> findUserByToken( @NonNull String token ) {
         return userDao.findByToken( token );
     }
+
+    @NonNull
+    public Optional<User> findUserByLogin( @NonNull String login ) {
+        return userDao.findByLogin( login );
+    }
 }
