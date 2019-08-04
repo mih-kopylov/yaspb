@@ -1,4 +1,4 @@
-<div *ngIf="isLoggedIn()" fxLayout="row" fxLayoutAlign="end center">
+<div class="profile" *ngIf="isLoggedIn()" fxLayout="row" fxLayoutAlign="end center">
     <span>{{getProfileName()}}</span>
     <button (click)="importFromUser()" mat-icon-button>
         <mat-icon>file_copy</mat-icon>

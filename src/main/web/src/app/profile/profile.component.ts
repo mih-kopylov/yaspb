@@ -10,7 +10,7 @@ import {ImportReasonGroupsDialogComponent} from "./import-reason-groups-dialog/i
 import {ImportReasonGroupsRequest} from "../model/import-reason-groups-request";
 
 @Component({
-    selector: "app-profile",
+    selector: "profile",
     templateUrl: "./profile.component.html",
     styleUrls: ["./profile.component.css"],
 })
