@@ -16,13 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.mihkopylov.myspb.Const;
 import ru.mihkopylov.myspb.aspect.RefreshTokenIfRequired;
 import ru.mihkopylov.myspb.controller.dto.CreateReasonGroupRequest;
+import ru.mihkopylov.myspb.controller.dto.ImportReqsonGroupsRequest;
 import ru.mihkopylov.myspb.controller.dto.ReasonGroupResponse;
 import ru.mihkopylov.myspb.exception.ReasonGroupNotFoundException;
 import ru.mihkopylov.myspb.exception.UserNotFoundException;
+import ru.mihkopylov.myspb.exception.UserToImportNotFoundException;
 import ru.mihkopylov.myspb.interceptor.RequestContext;
 import ru.mihkopylov.myspb.model.ReasonGroup;
 import ru.mihkopylov.myspb.model.User;
 import ru.mihkopylov.myspb.service.ReasonGroupService;
+import ru.mihkopylov.myspb.service.UserService;
 
 import static java.util.stream.Collectors.toList;
 
@@ -35,6 +38,8 @@ public class ReasonGroupController {
     private final ReasonGroupService reasonGroupService;
     @NonNull
     private final RequestContext requestContext;
+    @NonNull
+    private final UserService userService;
 
     @GetMapping
     @RefreshTokenIfRequired
@@ -86,5 +91,16 @@ public class ReasonGroupController {
         ReasonGroup reasonGroup =
                 reasonGroupService.findByUserAndId( user, id ).orElseThrow( ReasonGroupNotFoundException :: new );
         reasonGroupService.deleteReasonGroup( reasonGroup );
+    }
+
+    @PostMapping("/import")
+    @RefreshTokenIfRequired
+    public void importGroups( @RequestBody @Valid ImportReqsonGroupsRequest request ) {
+        log.debug( "import reason groups" );
+        User user = requestContext.getUser().orElseThrow( UserNotFoundException :: new );
+        User userToImport =
+                userService.findUserByLogin( request.getLogin() ).orElseThrow( UserToImportNotFoundException :: new );
+
+        reasonGroupService.importFromUser( user, userToImport );
     }
 }

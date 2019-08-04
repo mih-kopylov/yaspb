@@ -4,6 +4,10 @@ import {Profile} from "../model/profile";
 import {isDefined} from "@angular/compiler/src/util";
 import {AuthService} from "../services/auth.service";
 import {Router} from "@angular/router";
+import {MatDialog, MatSnackBar} from "@angular/material";
+import {ProblemService} from "../services/problem.service";
+import {ImportReasonGroupsDialogComponent} from "./import-reason-groups-dialog/import-reason-groups-dialog.component";
+import {ImportReasonGroupsRequest} from "../model/import-reason-groups-request";
 
 @Component({
     selector: "app-profile",
@@ -15,7 +19,10 @@ export class ProfileComponent implements OnInit {
 
     constructor(
         private profileService: ProfileService,
+        private problemService: ProblemService,
         private authService: AuthService,
+        private dialog: MatDialog,
+        private snackBar: MatSnackBar,
         private router: Router) {
     }
 
@@ -37,6 +44,18 @@ export class ProfileComponent implements OnInit {
         this.authService.logout();
         this.profile = undefined;
         this.router.navigate(["/login"]);
+    }
+
+    importFromUser() {
+        let dialogRef = this.dialog.open(ImportReasonGroupsDialogComponent, {
+            data: new ImportReasonGroupsRequest(),
+
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            this.problemService.importReasonGroups(result.login).subscribe(() => {
+                this.snackBar.open("Шаблоны импортированы");
+            });
+        });
     }
 
     private updateProfile() {

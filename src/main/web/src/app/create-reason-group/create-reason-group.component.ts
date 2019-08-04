@@ -42,7 +42,7 @@ export class CreateReasonGroupComponent implements OnInit {
             if (isDefined(this.id)) {
                 this.problemService.getReasonGroup(this.id).subscribe(reasonGroup => {
                     this.request.name = reasonGroup.name;
-                    this.request.parentId = reasonGroup.parent.id;
+                    this.request.parentId = reasonGroup.parent ? reasonGroup.parent.id : undefined;
                     this.request.reasonId = reasonGroup.reasonId;
                     this.request.body = reasonGroup.body;
                 });
