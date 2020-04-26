@@ -29,6 +29,8 @@
                 </mat-optgroup>
             </mat-select>
         </mat-form-field>
+        <div *ngIf="getSelectedReason()">{{getSelectedReason()?.id}} :: {{getSelectedReason()?.name}}</div>
+
         <mat-form-field>
             <textarea [(ngModel)]="request.body" matInput name="body" placeholder="Сообщение" rows="3"></textarea>
         </mat-form-field>

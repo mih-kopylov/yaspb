@@ -82,6 +82,17 @@ export class CreateReasonGroupComponent implements OnInit {
                     this.snackBar.open(message);
                 });
     }
+
+    getSelectedReason(): InnerReason {
+        let result: InnerReason = undefined;
+        this.reasonsMap.forEach(reasons => {
+            let foundValue = reasons.find(r => r.id === this.request.reasonId);
+            if (isDefined(foundValue)) {
+                result = foundValue;
+            }
+        });
+        return result;
+    }
 }
 
 class InnerReason {
