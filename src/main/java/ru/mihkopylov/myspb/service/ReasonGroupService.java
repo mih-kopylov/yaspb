@@ -17,6 +17,7 @@ import ru.mihkopylov.myspb.model.ReasonGroup;
 import ru.mihkopylov.myspb.model.User;
 import ru.mihkopylov.myspb.service.dto.CategoryResponse;
 import ru.mihkopylov.myspb.service.dto.CityObjectResponse;
+import ru.mihkopylov.myspb.service.dto.ReasonResponse;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -38,7 +39,9 @@ public class ReasonGroupService {
     @NonNull
     public ReasonGroup createGroup( @NonNull User user, @NonNull String name, @Nullable Long parentId,
             @Nullable Long reasonId, @Nullable String body ) {
-        validateReasonId( reasonId );
+        if (nonNull( reasonId )) {
+            findReasonById( reasonId ).orElseThrow( ReasonNotFoundException :: new );
+        }
         ReasonGroup parent = isNull( parentId ) ? null
                 : reasonGroupDao.findById( parentId ).orElseThrow( ReasonGroupNotFoundException :: new );
         return reasonGroupDao.create( user, name, parent, reasonId, body );
@@ -52,7 +55,9 @@ public class ReasonGroupService {
     @NonNull
     public ReasonGroup updateReasonGroup( @NonNull ReasonGroup reasonGroup, @NonNull String name,
             @Nullable Long parentId, @Nullable Long reasonId, @Nullable String body ) {
-        validateReasonId( reasonId );
+        if (nonNull( reasonId )) {
+            findReasonById( reasonId ).orElseThrow( ReasonNotFoundException :: new );
+        }
         ReasonGroup parent = isNull( parentId ) ? null
                 : reasonGroupDao.findById( parentId ).orElseThrow( ReasonGroupNotFoundException :: new );
         reasonGroup.setName( name );
@@ -82,6 +87,9 @@ public class ReasonGroupService {
     private void importGroupsRecursively( @NonNull User user, @NonNull Collection<ReasonGroup> groupsToImport,
             @Nullable Long parentGroupId, @NonNull Multimap<Long, ReasonGroup> groupsToImportByParent ) {
         for (ReasonGroup groupToImport : groupsToImport) {
+            if (nonNull( groupToImport.getReasonId() ) && findReasonById( groupToImport.getReasonId() ).isEmpty()) {
+                continue;
+            }
             ReasonGroup group = createGroup( user, groupToImport.getName(), parentGroupId, groupToImport.getReasonId(),
                     groupToImport.getBody() );
             importGroupsRecursively( user, groupsToImportByParent.get( groupToImport.getId() ), group.getId(),
@@ -89,17 +97,18 @@ public class ReasonGroupService {
         }
     }
 
-    private void validateReasonId( @Nullable Long reasonId ) {
-        if (nonNull( reasonId )) {
-            reasonService.getReasons()
-                    .stream()
-                    .map( CityObjectResponse :: getCategories )
-                    .flatMap( Collection :: stream )
-                    .map( CategoryResponse :: getReasons )
-                    .flatMap( Collection :: stream )
-                    .filter( o -> o.getId().equals( reasonId ) )
-                    .findAny()
-                    .orElseThrow( ReasonNotFoundException :: new );
+    @NonNull
+    private Optional<ReasonResponse> findReasonById( @Nullable Long reasonId ) {
+        if (isNull( reasonId )) {
+            return Optional.empty();
         }
+        return reasonService.getReasons()
+                .stream()
+                .map( CityObjectResponse :: getCategories )
+                .flatMap( Collection :: stream )
+                .map( CategoryResponse :: getReasons )
+                .flatMap( Collection :: stream )
+                .filter( o -> o.getId().equals( reasonId ) )
+                .findAny();
     }
 }
