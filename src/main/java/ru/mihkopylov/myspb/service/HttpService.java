@@ -18,6 +18,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import ru.mihkopylov.myspb.exception.BaseServiceException;
 import ru.mihkopylov.myspb.interceptor.RequestContext;
 
 @Service
@@ -73,9 +74,9 @@ public class HttpService {
             return supplier.get();
         } catch (HttpStatusCodeException e) {
             //can't use getResponseBodyAsString because want to use UTF_8 charset while the former uses DEFAULT_CHARSET = StandardCharsets.ISO_8859_1
-            log.error( "Client error happened: status={}, body={}", e.getStatusCode(),
-                    new String( e.getResponseBodyAsByteArray(), StandardCharsets.UTF_8 ) );
-            throw e;
+            String message = new String( e.getResponseBodyAsByteArray(), StandardCharsets.UTF_8 );
+            log.error( "Client error happened: status={}, body={}", e.getStatusCode(), message, e );
+            throw new BaseServiceException( e.getStatusCode(), message );
         }
     }
 }

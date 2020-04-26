@@ -45,7 +45,8 @@ export class ProblemService {
         model.files.forEach(file => body.append("files", file, file.name));
         return this.httpClient.post<Problem>(Api.PROBLEM, body).pipe(
             catchError(error => {
-                this.snackBar.open("Не удалось создать обращение");
+                let errorMessage: String = error.error.message;
+                this.snackBar.open("Не удалось создать обращение: " + errorMessage);
                 return throwError(error);
             }),
         );
