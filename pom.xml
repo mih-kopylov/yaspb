@@ -9,7 +9,7 @@
     </parent>
     <groupId>ru.omickron</groupId>
     <artifactId>myspb</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1-SNAPSHOT</version>
     <name>myspb</name>
     <description>Client for Our Saint-Petersburg portal</description>
 
