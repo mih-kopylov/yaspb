@@ -72,6 +72,7 @@ public class HttpService {
         try {
             return supplier.get();
         } catch (HttpStatusCodeException e) {
+            //can't use getResponseBodyAsString because want to use UTF_8 charset while the former uses DEFAULT_CHARSET = StandardCharsets.ISO_8859_1
             log.error( "Client error happened: status={}, body={}", e.getStatusCode(),
                     new String( e.getResponseBodyAsByteArray(), StandardCharsets.UTF_8 ) );
             throw e;
