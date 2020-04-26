@@ -15,6 +15,12 @@
 
     <properties>
         <java.version>11</java.version>
+        <jackson-datatype-jsr310.version>2.9.8</jackson-datatype-jsr310.version>
+        <guava.version>27.0-jre</guava.version>
+        <versioner-maven-plugin.version>3.2.1</versioner-maven-plugin.version>
+        <frontend-maven-plugin.version>1.7.6</frontend-maven-plugin.version>
+        <frontend-maven-plugin.nodeVersion>v10.15.3</frontend-maven-plugin.nodeVersion>
+        <frontend-maven-plugin.npmVersion>6.4.1</frontend-maven-plugin.npmVersion>
     </properties>
 
     <dependencies>
@@ -37,7 +43,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.9.8</version>
+            <version>${jackson-datatype-jsr310.version}</version>
         </dependency>
 
         <dependency>
@@ -53,7 +59,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>27.0-jre</version>
+            <version>${guava.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -71,7 +77,7 @@
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
-                <version>1.7.6</version>
+                <version>${frontend-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>install node and npm</id>
@@ -102,8 +108,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <nodeVersion>v10.15.3</nodeVersion>
-                    <npmVersion>6.4.1</npmVersion>
+                    <nodeVersion>${frontend-maven-plugin.nodeVersion}</nodeVersion>
+                    <npmVersion>${frontend-maven-plugin.npmVersion}</npmVersion>
                     <installDirectory>target</installDirectory>
                     <workingDirectory>src/main/web</workingDirectory>
                 </configuration>
@@ -111,7 +117,7 @@
             <plugin>
                 <groupId>ru.mihkopylov</groupId>
                 <artifactId>versioner-maven-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>${versioner-maven-plugin.version}</version>
             </plugin>
         </plugins>
         <finalName>myspb</finalName>
